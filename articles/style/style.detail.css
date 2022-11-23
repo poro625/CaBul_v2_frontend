@@ -1,0 +1,20 @@
+.FeedBoxCont {
+    width: 1400px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    margin: 0 0 0 100px;
+}
+
+.FeedBox {
+    display: flex;
+    width: 300px;
+    height: 400px;
+    margin-top: 30px;
+
+}
+.FeedBox{
+    background-color: #fafafa; 
+    border: solid 1px #aaaaaa; 
+    box-shadow: 1px 1px 1px 1px #aaaaaa;
+}
+
