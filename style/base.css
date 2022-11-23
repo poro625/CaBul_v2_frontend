@@ -1,0 +1,38 @@
+<style>
+				.title-center {
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .wrap {
+            width: 400px;
+            margin: 0 auto;
+        }
+
+        .form-area {
+            margin-top: 25px;
+        }
+
+        .timeline-container {
+            margin-top : 25px
+        }
+        
+        *{
+            font-family: 'Jua', sans-serif;
+            font-family: 'Nanum Gothic Coding', monospace;
+        }
+
+        .category {
+            width: 400px;
+            height: 50px;
+            text-align: right;
+            padding: 10px 40px;
+            font-weight: bold;
+            cursor: pointer;
+
+        }
+        .category:hover {
+            background-color: #aaaaaa;
+        }
+
+    </style>
