@@ -6,24 +6,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Jua&family=Nanum+Gothic+Coding&display=swap" rel="stylesheet">
-    {% comment %} <meta charset="UTF-8"> # 폰트 변경 {% endcomment %}
-
-
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>홈화면</title>
 
-
     <style>
-        *{
-            font-family: 'Jua', sans-serif;
-            font-family: 'Nanum Gothic Coding', monospace;
-        }
         .FeedBoxCont {
             width: 1400px;
             display: grid;
@@ -42,20 +31,20 @@
     </style>
 </head>
 <body>
-
     <div class="FeedBoxCont">
-        {% for feed in page_obj %}
+        {% for feed in feeds %}
         <div class="FeedBox" style="background-color: #fafafa; border: solid 1px #aaaaaa; box-shadow: 1px 1px 1px 1px #aaaaaa;">
             <div style="width: 300px; min-width: 300px; height: 400px; min-height: 400px;">
 
-                <div style="display: flex; flex-direction: row; justify-content: space-between; height: 40px;"><div style="display: flex; flex-direction: row;">
-                    {% if feed.user.kakao_profile %}
-                    <img src="{{ feed.user.kakao_profile }}" alt="" style="width: 20px; height: 20px; border-radius: 10px; margin: 10px 5px 0 5px;">
-                    {% else %}
-                    <img src="{% get_media_prefix %}{{ feed.user.profile_image }}" alt="" style="width: 20px; height: 20px; border-radius: 10px; margin: 10px 5px 0 5px;">
-                    {% endif %}
+                <div style="display: flex; flex-direction: row; justify-content: space-between; height: 40px;">
+                    <div style="display: flex; flex-direction: row;">
+                        {% if feed.user.kakao_profile %}
+                        <img src="{{ feed.user.kakao_profile }}" alt="" style="width: 20px; height: 20px; border-radius: 10px; margin: 10px 5px 0 5px;">
+                        {% else %}
+                        <img src="{% get_media_prefix %}{{ feed.user.profile_image }}" alt="" style="width: 20px; height: 20px; border-radius: 10px; margin: 10px 5px 0 5px;">
+                        {% endif %}
                     <div style="font-weight: bold; margin-top: 7px ;">
-                    {% if feed.user.nickname != '' %}{{ feed.user.nickname }}{% else %}{{ feed.user.username }}{% endif %}
+                    {{ feed.user.nickname }}
                 </div>
                 {% if feed.user != request.user %}
                     {% if feed.user in user.follow.all %}
@@ -63,7 +52,7 @@
                         {% else %}
                         <a href= "{% url 'users:follow' feed.user.id %}" style="border: solid 1px #aaaaaa; border-radius: 4px; height: 25px; margin: 5px 0 0 10px; padding-left: 5px; padding-right: 5px; font-size: 11pt; text-decoration: none; color: #aaaaaa;; background-color: #fafafa;">팔로우</a>
                     {% endif %}
-                {% endif %}
+                {% endif %}    
             </div>
             <div class="dropdown">
                 <button type="button" data-bs-toggle="dropdown" aria-expanded="false" style="border: none; background-color: #fafafa;">
@@ -76,7 +65,7 @@
                 </ul>
                 {% endif %}
             </div>
-            </div>
+        </div>
 
                 <div style="width: 300px; min-width: 300px; height: 280px; min-height: 280px;">
                     <img onclick="location.href='/contents/detail/{{ feed.id }}'" style="cursor: pointer; width: 300px; min-width: 300px; height: 280px; min-height: 280px; object-fit: cover;" src="{% get_media_prefix %}{{ feed.image }}"></div>
@@ -113,27 +102,8 @@
         </div>
         {% endfor %}
     </div>
-        {% if page_obj.has_other_pages %}
-        <ul style="display:flex;list-style: none;"> 
 
-        {% if page_obj.has_previous %}
-        <li style="margin:3px;"><a style="text-decoration:none; color: black;" href="?page={{page_obj.previous_page_number}}">&#10094; Prev</a></li>
-        {% endif %}
 
-        {% for page in paginator.page_range %}
-        {% if page == page_obj.number %}
-            <li style="margin:3px;"><a style="text-decoration:none; color: red;" href="?page={{page}}">{{page}}</a></li>
-        {% else %}
-            <li style="margin:3px;"><a style="text-decoration:none; color: black;" href="?page={{page}}">{{page}}</a></li>
-        {% endif %}
-        {% endfor %}
-
-        {% if page_obj.has_next %}
-        <li style="margin:3px;"><a style="text-decoration:none; color: black;" href="?page={{page_obj.next_page_number}}">&#10095; Next</a></li>
-        {% endif %}
-
-        </ul>
-    {% endif%}
 </body>
 </html>
 {% endblock %}
