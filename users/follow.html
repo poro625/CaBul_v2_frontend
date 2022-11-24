@@ -1,6 +1,8 @@
 <!-- templates/user/user_list.html -->
 
-    사용자 리스트
+    <div class="user_box" id ="user_list">
+        
+    </div>
     <div class="container timeline-container">
         <div class="row">
             <!-- 왼쪽 컬럼 -->
@@ -17,14 +19,17 @@
                     <!-- 사용자 리스트 반복문 -->
                         <div class="card">
                             <div class="card-body">
-                                <h5 class="card-title">유저네임</h5>
-                                <h6 class="card-subtitle mb-2 text-muted">이메일</h6>
+                                <h5 class="card-title" id="name">유저네임</h5>
+                                <h6 class="card-subtitle mb-2 text-muted" id="email">이메일</h6>
                                 <p class="card-text">
                                 </p>
-                                <p class="card-text">
-                                    팔로잉 팔로우한 사람 수 명 / 팔로워 나를 팔로우 한 사람 수 명
+                                <p class="card-text" id="follow">
+                                    팔로잉 내가 팔로우한 사람 수 명
                                 </p>
-                                <a href= "{% url 'users:follow' ul.id %}" class ="card-link">[팔로우]</a>
+                                <p id = "follower">
+                                    팔로워 나를 팔로우 한 사람 수 명
+                                </p>
+                                <a href= "" class ="card-link" onclick="handlefollow()">[팔로우]</a>
                             </div>
                         </div>
                         <hr>
@@ -32,4 +37,5 @@
             </div>
             <div class="col-md-2"></div>
         </div>
+        <script src="js/follow_api.js"></script>
     </div>
