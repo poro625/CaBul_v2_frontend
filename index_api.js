@@ -45,7 +45,7 @@ window.onload = async function getIndex_API(){
                                 </div>
 
                                     <div style="width: 300px; min-width: 300px; height: 280px; min-height: 280px;">
-                                        <img onclick="location.href=''" style="cursor: pointer; width: 300px; min-width: 300px; height: 280px; min-height: 280px; object-fit: cover;" src="${backEndBaseUrl}${feed.transfer_image}"></div>
+                                        <img onclick="location.href='/articles/detail.html?id=${feed.id}'" style="cursor: pointer; width: 300px; min-width: 300px; height: 280px; min-height: 280px; object-fit: cover;" src="${backEndBaseUrl}${feed.transfer_image}"></div>
                                     <div style="display: flex; flex-direction: row; justify-content: space-between;"><div style="font-size: 12pt; font-weight: bold; margin: 5px 0 0 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; width: 180px;">${feed.title}</div>
                                     <form action='' method='post'>
                                         <div style="display: flex; flex-direction: row;">

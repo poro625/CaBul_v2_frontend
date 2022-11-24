@@ -2,8 +2,8 @@ const frontEndBaseUrl = "http://127.0.0.1:5500"
 const backEndBaseUrl = "http://127.0.0.1:8000"
 
 
-async function getIndexFeedDetail(){
-    const response = await fetch(`${backEndBaseUrl}/articles/1/`,{
+async function getIndexFeedDetail(id){
+    const response = await fetch(`${backEndBaseUrl}/articles/${id}/`,{
         headers: {
             'content-type': 'application/json',
             "Authorization":"Bearer " + localStorage.getItem("access")
@@ -39,7 +39,9 @@ function timeForToday(value) {
 }
 
 window.onload = async function getIndexDetail_API(){
-    feed = await getIndexFeedDetail()
+    const id = location.search.replace("?id=", "")
+    console.log(id)
+    feed = await getIndexFeedDetail(id)
     comments = feed.comments
     created_at = timeForToday(feed.created_at)
     console.log(feed)
