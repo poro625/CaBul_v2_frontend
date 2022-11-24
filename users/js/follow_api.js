@@ -4,10 +4,11 @@ const TmdbApiImageUrl = "https://www.themoviedb.org/t/p/w220_and_h330_face"
 const TmdbApiImageOgUrl = "https://www.themoviedb.org/t/p/original/"
 
 
-async function handleFollow(){
+async function handleFollow(user_id){
+    console.log(user_id)
     
 
-    const response = await fetch(`${backEndBaseUrl}/users/follow/1/`, {
+    const response = await fetch(`${backEndBaseUrl}/users/follow/${user_id}/`, {
         headers: {
             'content-type': 'application/json',
             "Authorization":"Bearer " + localStorage.getItem("access")
@@ -19,6 +20,9 @@ async function handleFollow(){
     })
     const response_json = await response.json()
     console.log(response_json)
+    window.location.reload();
+    return response_json
+    
 }
 
 async function getUser(){
@@ -59,11 +63,11 @@ async function getUserFollow(){
 
 window.onload = async function getFollow_API(){
     follow_list = await getUserFollow()
+    console.log(follow_list)
     me_obj = await getUser()
 
     var user_list =document.getElementsByClassName('user_box')[0];
     var wrap = document.getElementsByClassName('follow_box')[0];
-    var follow_count = document.getElementById('follow.count')
 
 
     follow_list.forEach(follow => {
@@ -79,11 +83,10 @@ window.onload = async function getFollow_API(){
                                 <p id = "follower.count">
                                     팔로워 ${follow.followee_count}명
                                 </p>
-                                <button class ="card-link" onclick="handlefollow()">팔로우</button>
+                                <button class ="card-link" onclick="handleFollow(${follow.id})">팔로우</button>
                             </div>
                         </div>`
     });
-    user_list.innerText = `${me_obj.nickname}`
-    follow_count.innerText = `팔로우:${follow.follow_count}명` /  `팔로워:${follow.followee_count}명`
+    user_list.innerText = `${me_obj.name}`
 }
 
