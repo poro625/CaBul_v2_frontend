@@ -12,17 +12,19 @@
 <body class="container">
     <div class="container">
         <h1>게시글 수정 페이지</h1>
-            <div >제목:  <input type="text" name="title" placeholder="">
+            <div >제목: <input id="title" type="text" name="title" placeholder="">
             <br></br>
             </div>
-            <div> 내용 <textarea name="content" cols="40" rows="20"></textarea>
+            <div> 내용 <textarea id="content" name="content" cols="40" rows="20"></textarea>
             </div>
             <br></br>
-            <div>사진 <input type="file" name="image" placeholder="사진" required="required" value="image" /></div>
-            <input type="submit"/>
+            <div>사진 <input type="file" id="original_image" name="original_image" placeholder="사진" required="required" value="image" /></div>
+            <input type="submit" onclick="feedUpload()"/>
         </form>
         
     </div>
 </center>
+
+<script src="js/update_api.js"></script>
 </body>
 </html>

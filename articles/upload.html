@@ -24,15 +24,13 @@
         <h1>게시글 작성 페이지</h1><hr>
         <div>제목: <input id="title" type="text" name="title" placeholder="제목"/></div>
         <hr>
-        <div>태그 :<input id="tag" type="text" name="tag" placeholder="태그, 입력, 하세요" /></div>
+        <div>사진 <input  id="original_image" type="file" name="original_image" placeholder="사진" required="required" value="image" /></div>
         <hr>
-        <div>사진 <input type="file" name="feed_image" placeholder="사진" required="required" value="image" /></div>
+        <textarea type="text" id="content" name="content" placeholder="내용 입력..." cols="20" rows="10"></textarea>
         <hr>
-        <textarea type="text" id="conent" name="content" placeholder="내용 입력..." cols="20" rows="10"></textarea>
-        <hr>
-        <button type="submit">작성하기</button>
+        <button type="submit" onclick="createArticle()">작성하기</button>
     </div>
 
-
+    <script src="js/article_upload_api.js"></script>
 </body>
 </html>
