@@ -33,11 +33,6 @@ async function getuserfollow(){
         })
     })
 
-    // const follow_count = document.getElementById("follow.count").value
-    // const follower_count = document.getElementById("follower.count").value
-    // const user_list = document.getElementById("user_list").value
-    // const name = document.getElementById("name").value
-    // console.log(follow_count,follower_count,user_list,name)
     const response_json = await response.json()
     console.log(response_json)
 
@@ -69,7 +64,7 @@ window.onload = async function getfollow_API(){
                             </div>
                         </div>`;
     });
-        user_list.innerText = `${user_list}`
-        follow_count.innerText = `팔로우:${follow.follow_count}명` /  `팔로워:${follow.follower_count}명`
+    user_list.innerText = `${user_list}`
+    follow_count.innerText = `팔로우:${follow.follow_count}명` /  `팔로워:${follow.follower_count}명`
 }
 
