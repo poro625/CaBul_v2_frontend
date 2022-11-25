@@ -9,31 +9,43 @@
 </head>
 
 <body>
+<div data-include-path="../header.html"></div>
+    <div style="display: flex; flex-direction: row;">
+        <div data-include-path="../nav.html"></div>
+        <div>
+            <div style="display: flex; flex-direction: row; width: 60vw; height: 50px; background-color: #fafafa; margin: 20px auto 0 40px; text-align: center; border-bottom: solid 1px #c8c4c4;">
+                <div style="width: 5vw; min-width: 50px; margin: auto;"><b>글번호</b></div>
+                <div style="width: 5vw; min-width: 50px; margin: auto;"><b>카테고리</b></div>
+                <div style="width: 25vw; min-width: 250px; margin: auto;"><b>제목</b></div>
+                <div style="width: 10vw; min-width: 100px; margin: auto;"><b>닉네임</b></div>
+                <div style="width: 15vw; min-width: 150px; margin: auto;"><b>작성시간</b></div>
+            </div>
+            <div class="SearchList">
 
-    만약, 검색창에 입력한 값이 있다면 이라는 의미입니다.
-    <h1 style="display: flex; flex-direction: row; width: 60vw; height: 50px; margin: 20px auto 0 40px; text-align: center;"> 검색하신{{}} 정보입니다. </h1>
-
-    <div style="display: flex; flex-direction: row; width: 60vw; height: 50px; background-color: #fafafa; margin: 20px auto 0 40px; text-align: center; border-bottom: solid 1px #c8c4c4;">
-        <div style="width: 5vw; min-width: 50px; margin: auto;"><b>글번호</b></div>
-        <div style="width: 5vw; min-width: 50px; margin: auto;"><b>카테고리</b></div>
-        <div style="width: 25vw; min-width: 250px; margin: auto;"><b>제목</b></div>
-        <div style="width: 10vw; min-width: 100px; margin: auto;"><b>닉네임</b></div>
-        <div style="width: 15vw; min-width: 150px; margin: auto;"><b>작성시간</b></div>
+            </div>
+        </div>
     </div>
-    <div style="display: flex; flex-direction: row; width: 60vw; height: 50px; background-color: white; margin: 0 auto 0 40px; text-align: center; border-bottom: solid 1px #c8c4c4;">
-        <div style="width: 5vw; min-width: 50px; margin: auto;"></div>
-        <div style="width: 5vw; min-width: 50px; margin: auto;"></div>
-        <div style="width: 25vw; min-width: 250px; margin: auto auto auto auto; padding-left: 30px; text-align: left;"><a href="" style="color: black; text-decoration: none;"><b></b></a></div>
-        <div style="width: 10vw; min-width: 100px; margin: auto;"></div>
-        <div style="width: 15vw; min-width: 150px; margin: auto;"></div>
-    </div>
-
-
-    검색창에 아무것도 입력하지 않았을 경우 뜨는 메시지입니다.
-    <h1> 찾고 있는 이름을 검색창에 입력해주세요. </h1>
-    
-
-
+    <script>
+        // html 상속
+        window.addEventListener('load', function() {
+            var allElements = document.getElementsByTagName('*');
+            Array.prototype.forEach.call(allElements, function(el) {
+                var includePath = el.dataset.includePath;
+                if (includePath) {
+                    var xhttp = new XMLHttpRequest();
+                    xhttp.onreadystatechange = function () {
+                        if (this.readyState == 4 && this.status == 200) {
+                            el.outerHTML = this.responseText;
+                        }
+                    };
+                    xhttp.open('GET', includePath, true);
+                    xhttp.send();
+                }
+            });
+        });
+        
+    </script>
+    <script src="js/search_api.js"></script>
 </body>
 
 </html>

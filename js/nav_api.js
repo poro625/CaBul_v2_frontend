@@ -49,3 +49,25 @@ function timeForToday(value) {
 
     return `${Math.floor(betweenTimeDay / 365)}년전`;
 }
+
+
+async function handleLogout() {
+    localStorage.removeItem("access");
+    localStorage.removeItem("refresh");
+    localStorage.removeItem("payload");
+    alert("로그아웃 되었습니다");
+    window.location.replace(`${frontEndBaseUrl}/users/login.html`);
+}
+async function handleDelete(){   //mock 함수
+    const response = await fetch(`${backEndBaseUrl}/users/delete/`,{
+        headers:{
+            "Authorization":"Bearer " + localStorage.getItem("access")
+        },
+        method:'DELETE',
+    })
+    if (response.status ==204){
+        alert("회원탈퇴 완료!")
+        window.location.replace(`${frontEndBaseUrl}/users/login.html`);
+    }
+    console.log(response)
+}
