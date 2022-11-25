@@ -62,7 +62,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="">  친구 <span class="sr-only"></span></a>
+                    <a class="nav-link" href="/users/follow.html">  친구  <span class="sr-only"></span></a>
                 </li>
             </ul>
         </div>
@@ -82,19 +82,17 @@
         <form class="form-inline my-2 my-lg-0">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item disabled">
-                    <span class="nav-link">
-                        user 님 반갑습니다!
-                    </span>
+                    <div class="NavUserInfoBoxName2" style="color: rgba(0,0,0,.55); font-size: 10pt;">이름 님 반갑습니다!</div>
                 </li>
                 <li class="nav-item active" style="display: flex; flex-direction: row;">
-                    <a class="nav-link" href="articles/upload.html"> 글 작성 </a>
-                    <a class="nav-link" href=""> 프로필 편집 </a>
+                    <a class="nav-link" href="/articles/upload.html"> 글 작성 </a>
+                    <a class="nav-link" href="/users/profileupload.html"> 프로필 편집 </a>
                     <a class="nav-link" type="submit" onclick="handleLogout()"> 로그아웃 </a>
                 </li>
             </ul>
         </form>
     </div>
 </nav>
-
+<script src="/js/header_api.js"></script>
 </body>
 </html>

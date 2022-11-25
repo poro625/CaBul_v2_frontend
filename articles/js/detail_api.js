@@ -76,39 +76,46 @@ function timeForToday(value) {
 }
 
 window.onload = async function getIndexDetail_API(){
-    const id = location.search.replace("?id=", "")
-    feed = await getIndexFeedDetail(id)
-    comments = feed.comments
-    created_at = timeForToday(feed.created_at)
+    let User_payload = JSON.parse(localStorage.getItem('payload'))
+    if (User_payload === undefined ||  User_payload === null){
+        location.href=`${frontend_base_url}/users/login.html`;
+        
+        
+    } else {
+        const id = location.search.replace("?id=", "")
+        feed = await getIndexFeedDetail(id)
+        comments = feed.comments
+        created_at = timeForToday(feed.created_at)
 
-    // var wrap = document.getElementsByClassName('FeedDetailBox')[0];
-    var comment_wrap = document.getElementsByClassName('CommentDetailList')[0];
-    var feed_nickname = document.getElementsByClassName('FeedDetailUserNickname')[0];
-    var feed_transfer_image = document.getElementsByClassName('FeedDetailTransferImage')[0];
-    var feed_title = document.getElementsByClassName('FeedDetailFeedTitle')[0];
-    var feed_content = document.getElementsByClassName('FeedDetailFeedContent')[0];
-    var feed_category = document.getElementsByClassName('FeedDetailFeedCategory')[0];
-    var feed_created_at = document.getElementsByClassName('FeedDetailFeedCreated')[0];
+        // var wrap = document.getElementsByClassName('FeedDetailBox')[0];
+        var comment_wrap = document.getElementsByClassName('CommentDetailList')[0];
+        var feed_nickname = document.getElementsByClassName('FeedDetailUserNickname')[0];
+        var feed_transfer_image = document.getElementsByClassName('FeedDetailTransferImage')[0];
+        var feed_title = document.getElementsByClassName('FeedDetailFeedTitle')[0];
+        var feed_content = document.getElementsByClassName('FeedDetailFeedContent')[0];
+        var feed_category = document.getElementsByClassName('FeedDetailFeedCategory')[0];
+        var feed_created_at = document.getElementsByClassName('FeedDetailFeedCreated')[0];
 
-    // wrap.innerHTML = ``
+        // wrap.innerHTML = ``
 
-    comments.forEach(cmt => {
-        comment_wrap.innerHTML += `<div style="display: flex; flex-direction: row; justify-content: space-between ;">
-                                    <div style="display: flex; flex-direction: row;">
-                                        <div style="margin-left: 5px; font-weight: bold;">${cmt.user}</div>
-                                        <div style="margin-left: 5px;">${cmt.comment}</div>
-                                    </div>
-                                    <!-- 댓글 삭제 부분 -->
-                                    <form>
-                                        <input type="submit" value='X' onclick="handleCommentDelete(${cmt.id}, ${feed.id})" style="background-color: transparent; border: none; margin-right: 10px; color: red;">
-                                    </form>
-                                   </div>`
-    });
+        comments.forEach(cmt => {
+            comment_wrap.innerHTML += `<div style="display: flex; flex-direction: row; justify-content: space-between ;">
+                                        <div style="display: flex; flex-direction: row;">
+                                            <div style="margin-left: 5px; font-weight: bold;">${cmt.user}</div>
+                                            <div style="margin-left: 5px;">${cmt.comment}</div>
+                                        </div>
+                                        <!-- 댓글 삭제 부분 -->
+                                        <form>
+                                            <input type="submit" value='X' onclick="handleCommentDelete(${cmt.id}, ${feed.id})" style="background-color: transparent; border: none; margin-right: 10px; color: red;">
+                                        </form>
+                                    </div>`
+        });
 
-    feed_nickname.innerText = `${feed.user}`
-    feed_transfer_image.innerHTML = `<img style="cursor: pointer; width: 1000px; min-width: 1000px; height: 600px; min-height: 600px; object-fit: contain; background-color: black;" src="${backEndBaseUrl}${feed.transfer_image}">`
-    feed_title.innerText = `${feed.title}`
-    feed_content.innerText = `${feed.content}`
-    feed_category.innerText = `${feed.category}`
-    feed_created_at.innerText = `${created_at}`
+        feed_nickname.innerText = `${feed.user}`
+        feed_transfer_image.innerHTML = `<img style="cursor: pointer; width: 1000px; min-width: 1000px; height: 600px; min-height: 600px; object-fit: contain; background-color: black;" src="${backEndBaseUrl}${feed.transfer_image}">`
+        feed_title.innerText = `${feed.title}`
+        feed_content.innerText = `${feed.content}`
+        feed_category.innerText = `${feed.category}`
+        feed_created_at.innerText = `${created_at}`
+    }
 }
