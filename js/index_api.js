@@ -97,7 +97,37 @@ window.onload = async function getIndex_API(){
     // nav 하단 카테고리 부분
     var nav_category = document.getElementsByClassName('NavCategory')[0];
     
+
     nav_category_box.forEach(category => {
         nav_category.innerHTML += `<div class="category"><a href='' style="color: #cacaca; text-decoration: none;">${category.category} <b style="font-weight: normal; color: #cacaca;">(${category.count})</b></a></div>`
     });
 }
+
+
+
+async function handleLogout() {
+    localStorage.removeItem("access");
+    localStorage.removeItem("refresh");
+    localStorage.removeItem("payload");
+    alert("로그아웃 되었습니다");
+    window.location.replace(`${frontEndBaseUrl}/users/login.html`);
+    
+}
+
+
+async function handleDelete(){   //mock 함수
+    const response = await fetch('http://127.0.0.1:8000/users/delete/',{
+        headers:{
+            "Authorization":"Bearer " + localStorage.getItem("access")
+        },
+        method:'DELETE',
+    })
+
+    if (response.status ==204){
+        alert("회원탈퇴 완료!")
+        window.location.replace(`${frontEndBaseUrl}/users/login.html`);
+    }
+
+    console.log(response)
+}
+
