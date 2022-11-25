@@ -45,8 +45,8 @@ async function getUser(){
 
 async function getUserFollow(){
     
-
-    const response = await fetch(`${backEndBaseUrl}/users/all/1/`, {
+    let User_payload = JSON.parse(localStorage.getItem('payload'))
+    const response = await fetch(`${backEndBaseUrl}/users/all/${User_payload.user_id}/`, {
         headers: {
             'content-type': 'application/json',
             "Authorization":"Bearer " + localStorage.getItem("access")
