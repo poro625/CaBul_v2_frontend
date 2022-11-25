@@ -2,9 +2,8 @@ const frontEndBaseUrl = "http://127.0.0.1:5500"
 const backEndBaseUrl = "http://127.0.0.1:8000"
 
 
-
-async function getProfileFeedList(user_id){
-    const response = await fetch(`${backEndBaseUrl}/users/${user_id}/`,{
+async function getCategoryFeedList(category_name){
+    const response = await fetch(`${backEndBaseUrl}/articles/category/${category_name}/`,{
         headers: {
             'content-type': 'application/json',
             "Authorization":"Bearer " + localStorage.getItem("access")
@@ -45,31 +44,28 @@ function timeForToday(value) {
 }    
 
 window.onload = async function getProfile_API(){
-    console.log("프로필 페이지 접속")
+    console.log("카테고리 접속")
     let User_payload = JSON.parse(localStorage.getItem('payload'))
+    user_id = User_payload.user_id
     
-    if(location.search != ""){
-        user_id = location.search.replace("?id=", "")
-    }
-    else{
-        user_id = User_payload.user_id
-    }
-    console.log(user_id)
+    category_name = location.search.replace("?category=", "")
+
+    console.log(category_name)
     
     // 좌측 메뉴바 API 연결
     nav_user_info = await getNavUserInfo(user_id)
     nav_category_box = await getNavCategoryBox()
 
     // 게시글 정보 조회 API
-    feed_list = await getProfileFeedList(user_id)
-    console.log(feed_list.feed_set)
+    feed_list = await getCategoryFeedList(category_name)
+    console.log(feed_list)
 
 
 
     // 게시글 반복 부분
     var wrap = document.getElementsByClassName('FeedBoxCont')[0];
 
-    feed_list.feed_set.forEach(feed => {
+    feed_list.forEach(feed => {
         console.log(feed)
         console.log(`
             pk : ${feed.pk}
@@ -153,43 +149,6 @@ window.onload = async function getProfile_API(){
     
 
     nav_category_box.forEach(category => {
-        nav_category.innerHTML += `<div class="category"><a href='' style="color: #cacaca; text-decoration: none;">${category.category} <b style="font-weight: normal; color: #cacaca;">(${category.count})</b></a></div>`
+        nav_category.innerHTML += `<div onclick="location.href='${frontEndBaseUrl}/articles/category.html?category=${category.category}'" class="category"><a style="color: #cacaca; text-decoration: none;">${category.category} <b style="font-weight: normal; color: #cacaca;">(${category.count})</b></a></div>`
     });
 }
-
-
-async function profileUpdate(){
-    
-    let User_payload = JSON.parse(localStorage.getItem('payload'))
-
-    
-    profile_Image = document.getElementById("profile_Image").files[0];
-    
-    const formData = new FormData();
-    
-    
-    formData.append("profile_image", profile_Image);
-    console.log(formData)
-
-    const response = await fetch(`${backEndBaseUrl}/users/${User_payload.user_id}/`, {
-        headers: {
-        "Authorization":"Bearer " + localStorage.getItem("access"),
-        },
-        method: 'PUT',
-        body: formData,
-
-    });
-    const response_json = await response.json()
-    if (response.status == 200){
-        alert(response_json["message"])
-            // window.location.replace(`${frontEndBaseUrl}/`);
-    }else {
-        alert("실패했습니다")
-        
-    }
-    
-
-        
-        return response_json
-        }
-
