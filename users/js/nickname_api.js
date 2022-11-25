@@ -1,22 +1,21 @@
 const frontEndBaseUrl = "http://127.0.0.1:5500"
 const backEndBaseUrl = "http://127.0.0.1:8000"
 
-// 비밀번호 변경
-async function updateUser(){
+async function updateNickname(){
     
     let User_payload = JSON.parse(localStorage.getItem('payload'))
     
-    const new_pass = document.getElementById("new_pass").value
-    const new_pass2 = document.getElementById("new_pass2").value
-    const response = await fetch(`${backEndBaseUrl}/users/${User_payload.user_id}/passwordchange/`, {
+    const user_name = document.getElementById("username").value
+    const nickname = document.getElementById("nickname").value
+    const response = await fetch(`${backEndBaseUrl}/users/${User_payload.user_id}/`, {
         headers: {
         'content-type': 'application/json',
         "Authorization":"Bearer " + localStorage.getItem("access")
         },
         method: 'PUT',
         body: JSON.stringify({
-            "password":new_pass,
-            "password2":new_pass2,
+            "name":user_name,
+            "nickname":nickname,
         
     
         })
@@ -27,7 +26,7 @@ async function updateUser(){
         alert(response_json["message"])
             window.location.replace(`${frontEndBaseUrl}/`);
     }else {
-        alert(response_json["password"])
+        alert(response_json["detail"])
         
     }
     
@@ -35,6 +34,3 @@ async function updateUser(){
         
         return response_json
         }
-
-
-
