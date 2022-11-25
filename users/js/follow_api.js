@@ -4,10 +4,6 @@ const backEndBaseUrl = "http://127.0.0.1:8000"
 
 // 팔로우 버튼
 async function handleFollow(user_id){
-     // if(follow.id == follow.follow){
-        //     t_wrap.innerHTML=`팔로우취소`;
-        //     }
-        // else{t_wrap.innerHTML =`팔로우`;}
     
     const response = await fetch(`${backEndBaseUrl}/users/follow/${user_id}/`, {
     headers: {
