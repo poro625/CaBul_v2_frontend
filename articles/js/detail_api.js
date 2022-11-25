@@ -1,7 +1,7 @@
 const frontEndBaseUrl = "http://127.0.0.1:5500"
 const backEndBaseUrl = "http://127.0.0.1:8000"
 
-
+// 게시글 상세 조회
 async function getIndexFeedDetail(id){
     const response = await fetch(`${backEndBaseUrl}/articles/${id}/`,{
         headers: {
@@ -14,6 +14,43 @@ async function getIndexFeedDetail(id){
     response_json = await response.json()
     return response_json
 }
+
+// 댓글 작성
+async function handleComment(id){
+    comment = document.getElementById("comment").value;
+    console.log(comment)
+
+    const response = await fetch(`${backEndBaseUrl}/articles/${id}/comment/`,{
+        headers: {
+            'content-type': 'application/json',
+            "Authorization":"Bearer " + localStorage.getItem("access")
+        },
+        method:'POST',
+        body: JSON.stringify({
+            "comment": comment,
+        })
+    })
+    if (response.status ==200){
+        window.location.reload();
+}
+}
+
+// 댓글 삭제
+async function handleCommentDelete(comment_id, feed_id) {
+
+    const response = await fetch(`${backEndBaseUrl}/articles/${feed_id}/comment/${comment_id}/`, {
+        headers: {
+            'content-type': 'application/json',
+            "Authorization":"Bearer " + localStorage.getItem("access")
+        },
+        method: 'DELETE',
+    })
+    if (response.status ==204){
+        alert("리뷰가 삭제되었습니다!")
+        window.location.replace(`${frontEndBaseUrl}/articles/detail.html?id=${feed_id}`);
+    }
+}
+
 
 function timeForToday(value) {
     const today = new Date();
@@ -40,13 +77,9 @@ function timeForToday(value) {
 
 window.onload = async function getIndexDetail_API(){
     const id = location.search.replace("?id=", "")
-    console.log(id)
     feed = await getIndexFeedDetail(id)
     comments = feed.comments
     created_at = timeForToday(feed.created_at)
-    console.log(feed)
-
-    console.log(comments)
 
     // var wrap = document.getElementsByClassName('FeedDetailBox')[0];
     var comment_wrap = document.getElementsByClassName('CommentDetailList')[0];
@@ -60,15 +93,14 @@ window.onload = async function getIndexDetail_API(){
     // wrap.innerHTML = ``
 
     comments.forEach(cmt => {
-        console.log(cmt)
         comment_wrap.innerHTML += `<div style="display: flex; flex-direction: row; justify-content: space-between ;">
                                     <div style="display: flex; flex-direction: row;">
                                         <div style="margin-left: 5px; font-weight: bold;">${cmt.user}</div>
                                         <div style="margin-left: 5px;">${cmt.comment}</div>
                                     </div>
                                     <!-- 댓글 삭제 부분 -->
-                                    <form action="{% url 'contents:delete_comment' comment.id %}" method="POST">
-                                        <input type="submit" value='X' style="background-color: transparent; border: none; margin-right: 10px; color: red;">
+                                    <form>
+                                        <input type="submit" value='X' onclick="handleCommentDelete(${cmt.id}, ${feed.id})" style="background-color: transparent; border: none; margin-right: 10px; color: red;">
                                     </form>
                                    </div>`
     });
