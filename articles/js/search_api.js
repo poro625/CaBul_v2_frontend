@@ -40,18 +40,25 @@ function timeForToday(value) {
 
 
 window.onload = async function getSearch_api(){
-    const id = location.search.replace("?search=", "")
-    searchs = await getSearch(id)
+    let User_payload = JSON.parse(localStorage.getItem('payload'))
+    if (User_payload === undefined ||  User_payload === null){
+        location.href="http://127.0.0.1:5500/users/login.html";
+        
+        
+    } else {
+        const id = location.search.replace("?search=", "")
+        searchs = await getSearch(id)
 
-    var search_title = document.getElementsByClassName("SearchList")[0];
-    searchs.forEach(search => {
-        search_title.innerHTML += ` <div style="display: flex; flex-direction: row; width: 60vw; height: 50px; background-color: white; margin: 0 auto 0 40px; text-align: center; border-bottom: solid 1px #c8c4c4;">
-                                        <div style="width: 5vw; min-width: 50px; margin: auto;">${search.id}</div>
-                                        <div style="width: 5vw; min-width: 50px; margin: auto;">${search.category}</div>
-                                        <div style="width: 25vw; min-width: 250px; margin: auto auto auto auto; padding-left: 30px; text-align: left;"><a href="" style="color: black; text-decoration: none;"><b>${search.title}</b></a></div>
-                                        <div style="width: 10vw; min-width: 100px; margin: auto;">${search.user}</div>
-                                        <div style="width: 15vw; min-width: 150px; margin: auto;">${timeForToday(search.created_at)}</div>
-                                    </div>`
-    });
+        var search_title = document.getElementsByClassName("SearchList")[0];
+        searchs.forEach(search => {
+            search_title.innerHTML += ` <div style="display: flex; flex-direction: row; width: 60vw; height: 50px; background-color: white; margin: 0 auto 0 40px; text-align: center; border-bottom: solid 1px #c8c4c4;">
+                                            <div style="width: 5vw; min-width: 50px; margin: auto;">${search.id}</div>
+                                            <div style="width: 5vw; min-width: 50px; margin: auto;">${search.category}</div>
+                                            <div style="width: 25vw; min-width: 250px; margin: auto auto auto auto; padding-left: 30px; text-align: left;"><a href="" style="color: black; text-decoration: none;"><b>${search.title}</b></a></div>
+                                            <div style="width: 10vw; min-width: 100px; margin: auto;">${search.user}</div>
+                                            <div style="width: 15vw; min-width: 150px; margin: auto;">${timeForToday(search.created_at)}</div>
+                                        </div>`
+        });
 
+    }
 }
