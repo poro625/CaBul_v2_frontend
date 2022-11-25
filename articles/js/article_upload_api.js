@@ -5,7 +5,7 @@ const frontend_base_url = "http://127.0.0.1:5500";
 
 
 //게시글 생성
-async function createArticle() {
+window.onload = async function createArticle() {
     let User_payload = JSON.parse(localStorage.getItem('payload'))
     if (User_payload === undefined ||  User_payload === null){
         location.href=`${frontend_base_url}/users/login.html`;
