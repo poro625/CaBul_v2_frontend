@@ -5,10 +5,10 @@ const frontend_base_url = "http://127.0.0.1:5500";
 
 
 //게시글 생성
-async function createArticle() {
+window.onload = async function createArticle() {
     let User_payload = JSON.parse(localStorage.getItem('payload'))
     if (User_payload === undefined ||  User_payload === null){
-        location.href="http://127.0.0.1:5500/users/login.html";
+        location.href=`${frontend_base_url}/users/login.html`;
         
         
     } else {
@@ -26,7 +26,7 @@ async function createArticle() {
         formData.append("title", title);
         formData.append("content", content);
         formData.append("original_image", original_image);
-        const response = await fetch("http://127.0.0.1:8000/articles/", {
+        const response = await fetch(`${backend_base_url}/articles/`, {
         headers: {
             Authorization: "Bearer " + localStorage.getItem("access"),
         },
@@ -35,7 +35,7 @@ async function createArticle() {
         }); 
         if (response.status == 200) {
         alert("게시물 등록");
-        window.location.replace("http://127.0.0.1:5500/");
+        window.location.replace(`${frontend_base_url}/`);
         }
 
         }

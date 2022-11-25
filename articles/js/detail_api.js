@@ -78,7 +78,7 @@ function timeForToday(value) {
 window.onload = async function getIndexDetail_API(){
     let User_payload = JSON.parse(localStorage.getItem('payload'))
     if (User_payload === undefined ||  User_payload === null){
-        location.href="http://127.0.0.1:5500/users/login.html";
+        location.href=`${frontend_base_url}/users/login.html`;
         
         
     } else {
