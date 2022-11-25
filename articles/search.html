@@ -9,6 +9,12 @@
 </head>
 
 <body>
+    <form class="d-flex" method="post">
+
+        <input id="title" class="form-control" style="width: 200px; margin-left: 10px;" type="search" placeholder="Search" aria-label="Search" name="title">
+        <button onclick="getSearch()">검색</button>
+        
+    </form>
 
     만약, 검색창에 입력한 값이 있다면 이라는 의미입니다.
     <h1 style="display: flex; flex-direction: row; width: 60vw; height: 50px; margin: 20px auto 0 40px; text-align: center;"> 검색하신{{}} 정보입니다. </h1>
@@ -23,7 +29,7 @@
     <div style="display: flex; flex-direction: row; width: 60vw; height: 50px; background-color: white; margin: 0 auto 0 40px; text-align: center; border-bottom: solid 1px #c8c4c4;">
         <div style="width: 5vw; min-width: 50px; margin: auto;"></div>
         <div style="width: 5vw; min-width: 50px; margin: auto;"></div>
-        <div style="width: 25vw; min-width: 250px; margin: auto auto auto auto; padding-left: 30px; text-align: left;"><a href="" style="color: black; text-decoration: none;"><b></b></a></div>
+        <div style="width: 25vw; min-width: 250px; margin: auto auto auto auto; padding-left: 30px; text-align: left;"><a href="" style="color: black; text-decoration: none;"><b class="searchTitle"></b></a></div>
         <div style="width: 10vw; min-width: 100px; margin: auto;"></div>
         <div style="width: 15vw; min-width: 150px; margin: auto;"></div>
     </div>
