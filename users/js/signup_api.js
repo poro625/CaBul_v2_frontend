@@ -36,7 +36,7 @@ async function handleSignup() {
     console.log(response)
     if (response.status == 201){
         alert(response_json["detail"])
-            window.location.replace(`${frontEndBaseUrl}users/login.html`);
+            window.location.replace(`${frontEndBaseUrl}/users/login.html`);
     }else {
         alert(response_json["email"])
         alert(response_json["password1"])
