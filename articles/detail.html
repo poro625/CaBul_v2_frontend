@@ -103,13 +103,13 @@
                         </div>
                         <div style="width: 350px; min-width: 350px; height: 160px; min-height: 160px; background-color: #fafafa; border-left: solid 1px #aaaaaa;">
                             <!-- 댓글 입력 부분 -->
-                            <form action="comment/{{ feeds.id }}" method="POST">
+                            <form method="POST">
                                 <div>
                                     <div style="margin: 5px 0 0 10px;">
-                                        <textarea style="width: 310px; height: 100px; margin: 10px 0 0 10px; resize: none;" placeholder="댓글을 입력하세요.." name="comment"></textarea>
+                                        <textarea style="width: 310px; height: 100px; margin: 10px 0 0 10px; resize: none;" placeholder="댓글을 입력하세요.." id="comment" name="comment"></textarea>
                                         <div style="display: flex; flex-direction: row; justify-content: space-between;">
                                             <div style="width: 40px;"></div>
-                                            <button style="margin-right: 20px;" type="submit">입력</button>
+                                            <button style="margin-right: 20px;" type="submit" onclick="handleComment(feed.id)">입력</button>
                                         </div>
                                     </div>
 

@@ -66,17 +66,18 @@
                 </li>
             </ul>
         </div>
-        <form class="d-flex" method="post">
-            <select class="form-select" aria-label="Default select example" name="search_menu">
+
+            <!-- <select class="form-select" aria-label="Default select example" name="search_menu">
                 <option selected>선택..</option>
                 <option value="1">제목</option>
                 <option value="2">내용</option>
                 <option value="3">태그</option>
                 <option value="4">카테고리</option>
-            </select>
-            <input id="title" class="form-control" style="width: 200px; margin-left: 10px;" type="search" placeholder="Search" aria-label="Search" name="title">
-            <button onclick="getSearch()">검색</button>
-        </form>
+            </select> -->
+
+            <input id="search" style="width: 200px; margin-left: 10px;" placeholder="Search" name="search">
+            <button onclick="searchButton()">검색</button>
+
     
         <form class="form-inline my-2 my-lg-0">
             <ul class="navbar-nav mr-auto">
@@ -86,9 +87,9 @@
                     </span>
                 </li>
                 <li class="nav-item active" style="display: flex; flex-direction: row;">
-                    <a class="nav-link" href=""> 글 작성 </a>
+                    <a class="nav-link" href="articles/upload.html"> 글 작성 </a>
                     <a class="nav-link" href=""> 프로필 편집 </a>
-                    <a class="nav-link" href="/users/logout"> 로그아웃 </a>
+                    <a class="nav-link" type="submit" onclick="handleLogout()"> 로그아웃 </a>
                 </li>
             </ul>
         </form>

@@ -20,13 +20,13 @@ window.onload = async function getIndex_API(){
     feed_list = await getIndexFeedList()
     nav_user_info = await getNavUserInfo(User_payload.user_id)
     nav_category_box = await getNavCategoryBox()
-    console.log(nav_category_box)
+    console.log(feed_list)
 
 
     // 게시글 반복 부분
     var wrap = document.getElementsByClassName('FeedBoxCont')[0];
 
-    feed_list.forEach(feed => {
+    feed_list.articles.results.forEach(feed => {
         wrap.innerHTML += `<div class="FeedBox" style="background-color: #fafafa; border: solid 1px #aaaaaa; box-shadow: 1px 1px 1px 1px #aaaaaa;">
                                 <div style="width: 300px; min-width: 300px; height: 400px; min-height: 400px;">
                                     <div style="display: flex; flex-direction: row; justify-content: space-between; height: 40px;"><div style="display: flex; flex-direction: row;">
@@ -49,7 +49,7 @@ window.onload = async function getIndex_API(){
                                 </div>
 
                                     <div style="width: 300px; min-width: 300px; height: 280px; min-height: 280px;">
-                                        <img onclick="location.href='/articles/detail.html?id=${feed.id}'" style="cursor: pointer; width: 300px; min-width: 300px; height: 280px; min-height: 280px; object-fit: cover;" src="${backEndBaseUrl}${feed.transfer_image}"></div>
+                                        <img onclick="location.href='/articles/detail.html?id=${feed.id}'" style="cursor: pointer; width: 300px; min-width: 300px; height: 280px; min-height: 280px; object-fit: cover;" src="${feed.transfer_image}"></div>
                                     <div style="display: flex; flex-direction: row; justify-content: space-between;"><div style="font-size: 12pt; font-weight: bold; margin: 5px 0 0 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; width: 180px;">${feed.title}</div>
                                     <form action='' method='post'>
                                         <div style="display: flex; flex-direction: row;">
@@ -97,6 +97,7 @@ window.onload = async function getIndex_API(){
     // nav 하단 카테고리 부분
     var nav_category = document.getElementsByClassName('NavCategory')[0];
     
+
     nav_category_box.forEach(category => {
         nav_category.innerHTML += `<div class="category"><a href='' style="color: #cacaca; text-decoration: none;">${category.category} <b style="font-weight: normal; color: #cacaca;">(${category.count})</b></a></div>`
     });
