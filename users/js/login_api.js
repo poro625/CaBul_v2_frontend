@@ -7,33 +7,6 @@ window.onload = () => {
     console.log('로딩되었음')
 }
 
-async function handleSignup() {
-    const response = await fetch('http://127.0.0.1:8000/users/dj-rest-auth/registration/', {
-        headers: {
-            'content-type': 'application/json',
-        },
-        method: 'POST',
-        body: JSON.stringify({
-            "email": email,
-            "name": name,
-            "nickname": nickname,
-            "password1": password1,
-            "password2": password2
-        })
-    })
-
-    const response_json = await response.json()
-
-    if (response.status == 201){
-        alert(response_json["detail"])
-            window.location.replace(`${frontEndBaseUrl}/users/login.html`);
-    }else {
-        alert(response_json["email"])
-        alert(response_json["password1"])
-
-    }
-}
-
 
 async function handleLogin() {
     const email = document.getElementById("email").value
