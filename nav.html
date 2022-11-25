@@ -31,13 +31,13 @@
                 </div>
                 <div style="display: flex; flex-direction: column;">
                     <div style="margin: 30px 0 20px 0;">
-                        <div><b>닉네임</b></div>
-                        <div style="color: rgba(0,0,0,.55); font-size: 10pt;">이름</div>
-                        <div style="color: rgba(0,0,0,.55); font-size: 10pt;">email@email.com</div>
+                        <div><b class="NavUserInfoBoxNickname"></b></div>
+                        <div class="NavUserInfoBoxName" style="color: rgba(0,0,0,.55); font-size: 10pt;">이름</div>
+                        <div class="NavUserInfoBoxEmail" style="color: rgba(0,0,0,.55); font-size: 10pt;">email@email.com</div>
                     </div>
-                    <div style="font-size: 10pt;">팔로잉 n 명  |  팔로워 n 명</div>
+                    <div class="NavUserInfoBoxFollow" style="font-size: 10pt;">팔로잉 n 명  |  팔로워 n 명</div>
                     <div style="color: rgba(0,0,0,.55); font-size: 10pt;">작성한 글 : n 개</div>
-                    <div style="color: rgba(0,0,0,.55); font-size: 10pt;">현재 접속 시간 : n </div>
+                    <div class="NavUserInfoBoxLogin" style="color: rgba(0,0,0,.55); font-size: 10pt;">현재 접속 시간 : n </div>
                 </div>
             </div>
             <div style="display: flex; flex-direction: row; margin: 0 auto 0 auto;">
@@ -48,10 +48,10 @@
         </div>
         <div style="display: flex; flex-direction: column; width: 400px; height: 100%; background-color: #fafafa; margin-top: 30px; border: solid 1px #aaaaaa; border-left: none; box-shadow: 1px 1px 1px 1px #aaaaaa;">
             <div class="category" onclick="location.href='/'"> 분류 전체보기 <b style="font-weight: normal; color: #cacaca;">(n)</b></div>
-            <div>
-                <div class="category"><a href='' style="color: #cacaca; text-decoration: none;">카테고리 <b style="font-weight: normal; color: #cacaca;">(n)</b></a></div>
+            <div class="NavCategory">
             </div>
         </div>
     </div>
+    
 </body>
 </html>
