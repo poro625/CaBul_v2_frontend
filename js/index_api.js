@@ -2,8 +2,8 @@ const frontEndBaseUrl = "http://127.0.0.1:5500"
 const backEndBaseUrl = "http://127.0.0.1:8000"
 
 
-async function getIndexFeedList(){
-    const response = await fetch(`${backEndBaseUrl}/articles/`,{
+async function getIndexFeedList(page_id){
+    const response = await fetch(`${backEndBaseUrl}/articles/?page=${page_id}`,{
         headers: {
             'content-type': 'application/json',
             "Authorization":"Bearer " + localStorage.getItem("access")
@@ -15,18 +15,70 @@ async function getIndexFeedList(){
     return response_json
 }
 
+function range(start, end) {
+    if(start === end) return [start];
+    return [start,...range(start + 1, end)];
+    }
+
 window.onload = async function getIndex_API(){
     let User_payload = JSON.parse(localStorage.getItem('payload'))
-    feed_list = await getIndexFeedList()
+    
     nav_user_info = await getNavUserInfo(User_payload.user_id)
     nav_category_box = await getNavCategoryBox()
-    console.log(feed_list)
+    const page_number = location.search
+    if(page_number == ''){
+        page_id = 1
+    }
+    else {
+        page_id = page_number.replace("?page=", "")
+    }
+    console.log(`page_id : ${page_id}`)
+    feed_list = await getIndexFeedList(page_id)
+    feed_list = feed_list.articles
+    // console.log(feed_list)
+    // console.log(`page_id : ${page_id}`)
+    // console.log(`count : ${feed_list.count}`)
+    // console.log(`next : ${feed_list.next}`)
+    // console.log(`prev : ${feed_list.previous}`)
+
+    page_count = Math.ceil(feed_list.count/12)
+    page_number_button_list = range(1, page_count)
+    // console.log(page_number_button)
+
+    prev_button = null
+    next_button = null
+
+    if(feed_list.previous != null){
+    prev_button = feed_list.previous.replace(`${backEndBaseUrl}/articles/`, "")
+    }
+    if(feed_list.next != null){
+    next_button = feed_list.next.replace(`${backEndBaseUrl}/articles/`, "")
+    }
+
+    // 페이지네이션 버튼 < prev / 반복문 / next >
+    var page_prev_button = document.getElementsByClassName('PagePrevButton')[0];
+    var page_next_button = document.getElementsByClassName('PageNextButton')[0];
+    page_prev_button.setAttribute("href", `${frontEndBaseUrl}/${prev_button}`) 
+    page_next_button.setAttribute("href", `${frontEndBaseUrl}/${next_button}`)
+    page_prev_button.innerText = `< Prev`
+    page_next_button.innerText = `Next >`
+
+    // 반복문
+    var page_number_button = document.getElementsByClassName('PageNumberButton')[0];
+    page_number_button_list.forEach(page_number => {
+        if(page_id == page_number){
+        page_number_button.innerHTML += `<li style="margin:3px;"><a style="text-decoration:none; color: red;" href="?page=${page_number}">${page_number}</a></li>`
+        }
+        else{
+            page_number_button.innerHTML += `<li style="margin:3px;"><a style="text-decoration:none; color: black;" href="?page=${page_number}">${page_number}</a></li>`
+        }
+    })
 
 
     // 게시글 반복 부분
     var wrap = document.getElementsByClassName('FeedBoxCont')[0];
 
-    feed_list.articles.results.forEach(feed => {
+    feed_list.results.forEach(feed => {
         wrap.innerHTML += `<div class="FeedBox" style="background-color: #fafafa; border: solid 1px #aaaaaa; box-shadow: 1px 1px 1px 1px #aaaaaa;">
                                 <div style="width: 300px; min-width: 300px; height: 400px; min-height: 400px;">
                                     <div style="display: flex; flex-direction: row; justify-content: space-between; height: 40px;"><div style="display: flex; flex-direction: row;">
