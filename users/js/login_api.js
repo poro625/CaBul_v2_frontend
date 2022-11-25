@@ -7,14 +7,6 @@ window.onload = () => {
     console.log('로딩되었음')
 }
 
-async function handleSignup() {
-    const email = document.getElementById("email").value
-    const name = document.getElementById("name").value
-    const nickname = document.getElementById("nickname").value
-    const password1 = document.getElementById("password1").value
-    const password2 = document.getElementById("password2").value
-    console.log(email, nickname, password1, password2)
-
     const response = await fetch('http://127.0.0.1:8000/users/dj-rest-auth/registration/', {
         headers: {
             'content-type': 'application/json',
@@ -41,6 +33,7 @@ async function handleSignup() {
 
     }
 }
+
 
 async function handleLogin() {
     const email = document.getElementById("email").value
