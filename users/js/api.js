@@ -34,7 +34,7 @@ async function handleSignup() {
     console.log(response)
     if (response.status == 201){
         alert(response_json["detail"])
-            window.location.replace(`${frontEndBaseUrl}users/login.html`);
+            window.location.replace(`${frontEndBaseUrl}/users/login.html`);
     }else {
         alert(response_json["email"])
         alert(response_json["password1"])
@@ -75,7 +75,7 @@ async function handleLogin() {
         localStorage.setItem("payload", jsonPayload);
 
         alert("로그인 성공!")
-            window.location.replace(`${frontEndBaseUrl}/refresh.html`);
+            window.location.replace(`${frontEndBaseUrl}/`);
 
     }else {
         //로그인 실패시
@@ -83,3 +83,5 @@ async function handleLogin() {
         // window.location.reload();
     }
 }
+
+

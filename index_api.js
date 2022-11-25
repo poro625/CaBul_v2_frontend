@@ -75,3 +75,31 @@ window.onload = async function getIndex_API(){
     });
     
 }
+
+
+async function handleLogout() {
+    localStorage.removeItem("access");
+    localStorage.removeItem("refresh");
+    localStorage.removeItem("payload");
+    alert("로그아웃 되었습니다");
+    window.location.replace(`${frontEndBaseUrl}/users/login.html`);
+    
+}
+
+
+async function handleDelete(){   //mock 함수
+    const response = await fetch('http://127.0.0.1:8000/users/delete/',{
+        headers:{
+            "Authorization":"Bearer " + localStorage.getItem("access")
+        },
+        method:'DELETE',
+    })
+
+    if (response.status ==204){
+        alert("회원탈퇴 완료!")
+        window.location.replace(`${frontEndBaseUrl}/users/login.html`);
+    }
+
+    console.log(response)
+}
+
