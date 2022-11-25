@@ -42,7 +42,7 @@ async function handleLogin() {
         localStorage.setItem("payload", jsonPayload);
 
         alert("로그인 성공!")
-            window.location.replace(`${frontEndBaseUrl}/refresh.html`);
+            window.location.replace(`${frontEndBaseUrl}/`);
 
     }else {
         //로그인 실패시
