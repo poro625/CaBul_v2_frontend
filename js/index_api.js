@@ -16,10 +16,14 @@ async function getIndexFeedList(){
 }
 
 window.onload = async function getIndex_API(){
+    let User_payload = JSON.parse(localStorage.getItem('payload'))
     feed_list = await getIndexFeedList()
+    nav_user_info = await getNavUserInfo(User_payload.user_id)
+    nav_category_box = await getNavCategoryBox()
+    console.log(nav_category_box)
 
-    console.log(feed_list)
 
+    // 게시글 반복 부분
     var wrap = document.getElementsByClassName('FeedBoxCont')[0];
 
     feed_list.forEach(feed => {
@@ -73,5 +77,27 @@ window.onload = async function getIndex_API(){
 
         
     });
+
+    // nav 부분
+    // nav 상단 유저 박스 부분
+    var nav_nickname = document.getElementsByClassName('NavUserInfoBoxNickname')[0];
+    var nav_name = document.getElementsByClassName('NavUserInfoBoxName')[0];
+    var nav_email = document.getElementsByClassName('NavUserInfoBoxEmail')[0];
+    var nav_follow = document.getElementsByClassName('NavUserInfoBoxFollow')[0];
+    var nav_login = document.getElementsByClassName('NavUserInfoBoxLogin')[0];
+    last_login_time = timeForToday(nav_user_info.last_login)
+
+    nav_nickname.innerText = `${nav_user_info.nickname}`
+    nav_name.innerText = `${nav_user_info.name}`
+    nav_email.innerText = `${nav_user_info.email}`
+    nav_follow.innerText = `팔로잉 ${nav_user_info.follow_count} 명  |  팔로워 ${nav_user_info.followee_count} 명`
+    nav_login.innerText = `현재 접속 시간 : ${last_login_time}`
+
+
+    // nav 하단 카테고리 부분
+    var nav_category = document.getElementsByClassName('NavCategory')[0];
     
+    nav_category_box.forEach(category => {
+        nav_category.innerHTML += `<div class="category"><a href='' style="color: #cacaca; text-decoration: none;">${category.category} <b style="font-weight: normal; color: #cacaca;">(${category.count})</b></a></div>`
+    });
 }
