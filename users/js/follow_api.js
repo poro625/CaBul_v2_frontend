@@ -27,13 +27,6 @@ async function handleFollow(user_id){
     return response_json
 }
     
-    
-    
-    
-    
- 
-    
-
 
 // 로그인 사용자 정보 가져오기
 async function getUser(){
