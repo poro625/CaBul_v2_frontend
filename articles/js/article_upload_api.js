@@ -1,17 +1,17 @@
-const backend_base_url = "http://127.0.0.1:8000";
-const frontend_base_url = "http://127.0.0.1:5500";
-
+const backend_base_url = "http://127.0.0.1:8000"
+const frontend_base_url = "http://127.0.0.1:5500"
 
 
 
 //게시글 생성
-window.onload = async function createArticle() {
-    let User_payload = JSON.parse(localStorage.getItem('payload'))
-    if (User_payload === undefined ||  User_payload === null){
-        location.href=`${frontend_base_url}/users/login.html`;
+async function createArticle() {
+
+    // let User_payload = JSON.parse(localStorage.getItem('payload'))
+    // if (User_payload === undefined ||  User_payload === null){
+    //     location.href=`${frontend_base_url}/users/login.html`;
         
         
-    } else {
+    // } else {
         const payload = localStorage.getItem("payload");
         const parsed_payload = await JSON.parse(payload);
         console.log(parsed_payload);
@@ -19,6 +19,8 @@ window.onload = async function createArticle() {
         content = document.getElementById("content").value;
         title = document.getElementById("title").value;
         original_image = document.getElementById("original_image").files[0];
+        console.log(title);
+        console.log(content);
         console.log(original_image);
 
         const formData = new FormData();
@@ -38,7 +40,6 @@ window.onload = async function createArticle() {
         window.location.replace(`${frontend_base_url}/`);
         }
 
-        }
-
-
+        
     }
+
