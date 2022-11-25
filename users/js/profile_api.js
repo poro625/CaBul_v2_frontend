@@ -8,23 +8,22 @@ async function profileUpdate(){
     let User_payload = JSON.parse(localStorage.getItem('payload'))
 
     
-    image = document.getElementById("image").files[0];
-    
+    profile_Image = document.getElementById("profile_Image").files[0];
     
     const formData = new FormData();
     
     
-    formData.append("profile_image", image);
+    formData.append("profile_image", profile_Image);
+    console.log(formData)
 
     const response = await fetch(`${backEndBaseUrl}/users/${User_payload.user_id}/`, {
         headers: {
-        'content-type': 'application/json',
         "Authorization":"Bearer " + localStorage.getItem("access"),
         },
         method: 'PUT',
-        body: formData
+        body: formData,
 
-    })
+    });
     const response_json = await response.json()
     if (response.status == 200){
         alert(response_json["message"])
