@@ -97,6 +97,7 @@ window.onload = async function getIndex_API(){
     // nav 하단 카테고리 부분
     var nav_category = document.getElementsByClassName('NavCategory')[0];
     
+
     nav_category_box.forEach(category => {
         nav_category.innerHTML += `<div class="category"><a href='' style="color: #cacaca; text-decoration: none;">${category.category} <b style="font-weight: normal; color: #cacaca;">(${category.count})</b></a></div>`
     });
