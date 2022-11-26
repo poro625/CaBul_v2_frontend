@@ -1,7 +1,7 @@
 const frontEndBaseUrl = "http://127.0.0.1:5500"
 const backEndBaseUrl = "http://127.0.0.1:8000"
 
-
+// 게시글 전체 리스트 조회
 async function getIndexFeedList(page_id){
     const response = await fetch(`${backEndBaseUrl}/articles/?page=${page_id}`,{
         headers: {
@@ -15,11 +15,13 @@ async function getIndexFeedList(page_id){
     return response_json
 }
 
+// start ~ end 까지 숫자 리스트에 담아주기
 function range(start, end) {
     if(start === end) return [start];
     return [start,...range(start + 1, end)];
     }
 
+// 시간 변형 코드 (value 시간을 현재 시간이랑 비교하여 '~ 전' 출력)
 function timeForToday(value) {
     const today = new Date();
     const timeValue = new Date(value);
@@ -41,7 +43,78 @@ function timeForToday(value) {
     }
 
     return `${Math.floor(betweenTimeDay / 365)}년전`;
-}    
+}
+
+// 팔로우 버튼
+async function handleFollow(user_id){
+
+
+    const response = await fetch(`${backEndBaseUrl}/users/follow/${user_id}/`, {
+    headers: {
+        'content-type': 'application/json',
+        "Authorization":"Bearer " + localStorage.getItem("access")
+    },
+    method: 'POST',
+    body: JSON.stringify({
+
+        })
+    })
+    
+    const response_json = await response.json()
+    console.log(response_json)
+    window.location.reload();
+
+    return response_json
+}
+    
+
+// 로그인 사용자 정보 가져오기
+async function getUser(){
+    let User_payload = JSON.parse(localStorage.getItem('payload'))
+    const response = await fetch(`${backEndBaseUrl}/users/${User_payload.user_id}/`, {
+        headers: {
+            'content-type': 'application/json',
+            "Authorization":"Bearer " + localStorage.getItem("access")
+        },
+        method: 'GET',
+    })
+
+    const response_json = await response.json()
+    return response_json
+}
+
+// 사용자 상세 정보 가져오기
+async function getUserDetail(user_id){
+    const response = await fetch(`${backEndBaseUrl}/users/${user_id}/`, {
+        headers: {
+            'content-type': 'application/json',
+            "Authorization":"Bearer " + localStorage.getItem("access")
+        },
+        method: 'GET',
+    })
+
+    const response_json = await response.json()
+    console.log(response_json)
+    return response_json
+}
+
+// 로그인 사용자 정보 제외 회원 정보 가져오기
+async function getUserFollow(){
+
+    let User_payload = JSON.parse(localStorage.getItem('payload'))
+    console.log(User_payload)
+    const response = await fetch(`${backEndBaseUrl}/users/all/${User_payload.user_id}/`, {
+        headers: {
+            'content-type': 'application/json',
+            "Authorization":"Bearer " + localStorage.getItem("access")
+        },
+        method: 'GET',
+    })
+
+    const response_json = await response.json()
+    return response_json
+}
+
 
 window.onload = async function getIndex_API(){
     let User_payload = JSON.parse(localStorage.getItem('payload'))
@@ -102,18 +175,18 @@ window.onload = async function getIndex_API(){
     var wrap = document.getElementsByClassName('FeedBoxCont')[0];
 
     feed_list.results.forEach(feed => {
-        console.log(feed)
-        console.log(`
-            pk : ${feed.pk}
-            user : ${feed.user}
-            like_count : ${feed.like_count}
-            title : ${feed.title}
-            category : ${feed.category}
-            content : ${feed.content}
-            transfer_image : ${feed.transfer_image}
-            updated_at : ${feed.updated_at}
-            user_id : ${feed.user_id}
-        `)
+        // console.log(feed)
+        // console.log(`
+        //     pk : ${feed.pk}
+        //     user : ${feed.user}
+        //     like_count : ${feed.like_count}
+        //     title : ${feed.title}
+        //     category : ${feed.category}
+        //     content : ${feed.content}
+        //     transfer_image : ${feed.transfer_image}
+        //     updated_at : ${feed.updated_at}
+        //     user_id : ${feed.user_id}
+        // `)
         wrap.innerHTML += `<div class="FeedBox" style="background-color: #fafafa; border: solid 1px #aaaaaa; box-shadow: 1px 1px 1px 1px #aaaaaa;">
                                 <div style="width: 300px; min-width: 300px; height: 400px; min-height: 400px;">
                                     <div style="display: flex; flex-direction: row; justify-content: space-between; height: 40px;"><div style="display: flex; flex-direction: row;">
@@ -165,7 +238,6 @@ window.onload = async function getIndex_API(){
         
     });
 
-    console.log(nav_user_info)
     // nav 부분
     // nav 상단 유저 박스 부분
     var nav_nickname = document.getElementsByClassName('NavUserInfoBoxNickname')[0];
