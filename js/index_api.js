@@ -87,6 +87,8 @@ window.onload = async function getIndex_API(){
     
     // 좌측 메뉴바 API 연결
     nav_user_info = await getNavUserInfo(User_payload.user_id)
+    nav_user_info = nav_user_info.users
+    console.log(nav_user_info)
     nav_category_box = await getNavCategoryBox()
 
     // 현재 접속한 페이지 번호 확인
@@ -147,6 +149,7 @@ window.onload = async function getIndex_API(){
 
     // 팔로우 버튼 기능 API
     me = await getUser()
+    me = me.users
     console.log(me)
 
 
@@ -154,7 +157,7 @@ window.onload = async function getIndex_API(){
     var wrap = document.getElementsByClassName('FeedBoxCont')[0];
 
     feed_list.results.forEach(feed => {
-        // console.log(feed)
+        console.log(feed)
         // console.log(`
         //     pk : ${feed.pk}
         //     user : ${feed.user}
@@ -364,6 +367,6 @@ window.onload = async function getIndex_API(){
     
 
     nav_category_box.forEach(category => {
-        nav_category.innerHTML += `<div onclick="location.href='${frontEndBaseUrl}/articles/category.html?category=${category.category}'" class="category"><a style="color: #cacaca; text-decoration: none;">${category.category} <b style="font-weight: normal; color: #cacaca;">(${category.count})</b></a></div>`
+        nav_category.innerHTML += `<div onclick="location.href='${frontEndBaseUrl}/articles/category.html?id=${category.category}'" class="category"><a style="color: #cacaca; text-decoration: none;">${category.category} <b style="font-weight: normal; color: #cacaca;">(${category.count})</b></a></div>`
     });
 }
