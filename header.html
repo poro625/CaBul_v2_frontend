@@ -19,7 +19,7 @@
 </head>
 <body>
     
-<nav class="navbar navbar-expand-lg navbar-light bg-light" style="border-bottom: solid 2px #aaaaaa;">
+<nav class="navbar navbar-expand-lg navbar-light bg-light" style="max-width: 100vw; min-width: 1900px; border-bottom: solid 2px #aaaaaa;">
     <div class="container">
         <a class="navbar-brand" href="/">CaBul</a>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -40,12 +40,13 @@
 
             <input id="search" style="width: 200px; margin-left: 10px;" placeholder="Search" name="search">
             <button onclick="searchButton()">검색</button>
+            
 
     
         <form class="form-inline my-2 my-lg-0">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item disabled">
-                    <div class="NavUserInfoBoxName2" style="color: rgba(0,0,0,.55); font-size: 10pt;">이름 님 반갑습니다!</div>
+                    <div class="nav-link" class="NavUserInfoBoxName2" style="color: rgba(0,0,0,.55);">이름 님 반갑습니다!</div>
                 </li>
                 <li class="nav-item active" style="display: flex; flex-direction: row;">
                     <a class="nav-link" href="/articles/upload.html"> 글 작성 </a>

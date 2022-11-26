@@ -95,7 +95,6 @@ window.onload = async function getSearch_api(){
         nav_user_info = await getNavUserInfo(User_payload.user_id)
 
         
-        var wrap = document.getElementsByClassName('follow_box')[0];
         var nav_nickname = document.getElementsByClassName('NavUserInfoBoxNickname')[0];
         var nav_name = document.getElementsByClassName('NavUserInfoBoxName')[0];
         var nav_name2 = document.getElementsByClassName('NavUserInfoBoxName2')[0];
