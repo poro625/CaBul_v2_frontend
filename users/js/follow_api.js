@@ -141,55 +141,55 @@ window.onload = async function getFollow_API(){
         nav_follow.innerText = `팔로잉 ${nav_user_info.follow_count} 명  |  팔로워 ${nav_user_info.followee_count} 명`
         nav_login.innerText = `현재 접속 시간 : ${last_login_time}`
 
-                follow_list.forEach(follow => {
-                    count = 0
-                    counts = 0
+        follow_list.forEach(follow => {
+            count = 0
+            counts = 0
+            console.log(`${follow.id}번 유저`)
+            me.follow.forEach(fme =>{
+                // console.log(`fme : ${fme}`)
+                // console.log(`follow : ${follow.id}`)
+                if(fme == follow.id){
+                    counts =+1
+                }
+            })
+            console.log(`conunt : ${counts}`)
+                if(counts == 1){
                     console.log(`${follow.id}번 유저`)
-                    me.follow.forEach(fme =>{
-                        // console.log(`fme : ${fme}`)
-                        // console.log(`follow : ${follow.id}`)
-                        if(fme == follow.id){
-                            counts =+1
-                        }
-                    })
-                    console.log(`conunt : ${counts}`)
-                        if(counts == 1){
-                            console.log(`${follow.id}번 유저`)
-                            console.log("팔로우 중 입니다.")
-                            wrap.innerHTML += `<div class="card">
-                                                    <div class="card-body">
-                                                        <h5 class="card-title" id="name">${follow.name}</h5>
-                                                        <h6 class="card-subtitle mb-2 text-muted" id="email">${follow.email}</h6>
-                                                        <p class="card-text" id="follow.count">
-                                                            팔로잉 ${follow.follow_count}명 / 팔로워 ${follow.followee_count}명
-                                                        </p>
-                                                        <div id="toggle">
-                                                        <button class ="card-link" onclick="handleFollow(${follow.id})">팔로우 취소</button>
-                                                        </div>
-                                                    </div>
+                    console.log("팔로우 중 입니다.")
+                    wrap.innerHTML += `<div class="card">
+                                            <div class="card-body">
+                                                <h5 class="card-title" id="name">${follow.name}</h5>
+                                                <h6 class="card-subtitle mb-2 text-muted" id="email">${follow.email}</h6>
+                                                <p class="card-text" id="follow.count">
+                                                    팔로잉 ${follow.follow_count}명 / 팔로워 ${follow.followee_count}명
+                                                </p>
+                                                <div id="toggle">
+                                                <button class ="card-link" onclick="handleFollow(${follow.id})">팔로우 취소</button>
                                                 </div>
-                                                <hr>`
-                        }
-                        else{
-                            console.log(`${follow.id}번 유저`)
-                            console.log("팔로우 중이 아닙니다.")
-                            wrap.innerHTML += `<div class="card">
-                                                    <div class="card-body">
-                                                        <h5 class="card-title" id="name">${follow.name}</h5>
-                                                        <h6 class="card-subtitle mb-2 text-muted" id="email">${follow.email}</h6>
-                                                        <p class="card-text" id="follow.count">
-                                                            팔로잉 ${follow.follow_count}명 / 팔로워 ${follow.followee_count}명
-                                                        </p>
-                                                        <div id="toggle">
-                                                        <button class ="card-link" onclick="handleFollow(${follow.id})">팔로우</button>
-                                                        </div>
-                                                    </div>
+                                            </div>
+                                        </div>
+                                        <hr>`
+                }
+                else{
+                    console.log(`${follow.id}번 유저`)
+                    console.log("팔로우 중이 아닙니다.")
+                    wrap.innerHTML += `<div class="card">
+                                            <div class="card-body">
+                                                <h5 class="card-title" id="name">${follow.name}</h5>
+                                                <h6 class="card-subtitle mb-2 text-muted" id="email">${follow.email}</h6>
+                                                <p class="card-text" id="follow.count">
+                                                    팔로잉 ${follow.follow_count}명 / 팔로워 ${follow.followee_count}명
+                                                </p>
+                                                <div id="toggle">
+                                                <button class ="card-link" onclick="handleFollow(${follow.id})">팔로우</button>
                                                 </div>
-                                                <hr>`
-                        }
-                    
+                                            </div>
+                                        </div>
+                                        <hr>`
+                }
             
-                })
-            }
-        }
+    
+        })
+    }
+}
 
