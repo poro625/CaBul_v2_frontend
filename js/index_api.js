@@ -59,11 +59,9 @@ async function handleFollow(user_id){
 
         })
     })
-    
-    const response_json = await response.json()
-    console.log(response_json)
-    window.location.reload();
 
+    const response_json = await response.json()
+    window.location.reload();
     return response_json
 }
     
@@ -94,7 +92,6 @@ async function getUserDetail(user_id){
     })
 
     const response_json = await response.json()
-    console.log(response_json)
     return response_json
 }
 
@@ -102,7 +99,6 @@ async function getUserDetail(user_id){
 async function getUserFollow(){
 
     let User_payload = JSON.parse(localStorage.getItem('payload'))
-    console.log(User_payload)
     const response = await fetch(`${backEndBaseUrl}/users/all/${User_payload.user_id}/`, {
         headers: {
             'content-type': 'application/json',
@@ -119,8 +115,11 @@ async function getUserFollow(){
 window.onload = async function getIndex_API(){
     let User_payload = JSON.parse(localStorage.getItem('payload'))
     
+    // 좌측 메뉴바 API 연결
     nav_user_info = await getNavUserInfo(User_payload.user_id)
     nav_category_box = await getNavCategoryBox()
+
+    // 현재 접속한 페이지 번호 확인
     const page_number = location.search
     if(page_number == ''){
         page_id = 1
@@ -128,36 +127,46 @@ window.onload = async function getIndex_API(){
     else {
         page_id = page_number.replace("?page=", "")
     }
-    // console.log(`page_id : ${page_id}`)
+
+    // 게시글 전체 리스트 조회(페이지네이션)
     feed_list = await getIndexFeedList(page_id)
     feed_list = feed_list.articles
+
+    // 패이지 네이션 관련 로그 확인
     // console.log(feed_list)
     // console.log(`page_id : ${page_id}`)
     // console.log(`count : ${feed_list.count}`)
     // console.log(`next : ${feed_list.next}`)
     // console.log(`prev : ${feed_list.previous}`)
 
+    // 게시글 전체 리스트 총 페이지 수 확인
     page_count = Math.ceil(feed_list.count/12)
     page_number_button_list = range(1, page_count)
     // console.log(page_number_button)
 
-    prev_button = null
-    next_button = null
-
-    if(feed_list.previous != null){
-    prev_button = feed_list.previous.replace(`${backEndBaseUrl}/articles/`, "")
-    }
-    if(feed_list.next != null){
-    next_button = feed_list.next.replace(`${backEndBaseUrl}/articles/`, "")
-    }
-
     // 페이지네이션 버튼 < prev / 반복문 / next >
     var page_prev_button = document.getElementsByClassName('PagePrevButton')[0];
     var page_next_button = document.getElementsByClassName('PageNextButton')[0];
-    page_prev_button.setAttribute("href", `${frontEndBaseUrl}/${prev_button}`) 
-    page_next_button.setAttribute("href", `${frontEndBaseUrl}/${next_button}`)
+    prev_button = null
+    next_button = null
+
+    // 이전, 다음 페이지 버튼 유무 확인
+    if(feed_list.previous != null){
+    prev_button = feed_list.previous.replace(`${backEndBaseUrl}/articles/`, "")
+    page_prev_button.setAttribute("href", `${frontEndBaseUrl}/${prev_button}`)
     page_prev_button.innerText = `< Prev`
+    }
+    if(feed_list.next != null){
+    next_button = feed_list.next.replace(`${backEndBaseUrl}/articles/`, "")
+    page_next_button.setAttribute("href", `${frontEndBaseUrl}/${next_button}`)
     page_next_button.innerText = `Next >`
+    }
+
+    
+    
+    
+    
+    
 
     // 반복문
     var page_number_button = document.getElementsByClassName('PageNumberButton')[0];
@@ -194,7 +203,7 @@ window.onload = async function getIndex_API(){
                                         <div onclick="location.href='${frontEndBaseUrl}/users/profile.html?id=${feed.user_id}'" style="font-weight: bold; margin-top: 7px ;">
                                         ${feed.user}
                                     </div>
-                                            <a href= "" style="border: solid 1px #aaaaaa; border-radius: 4px; height: 25px; margin: 5px 0 0 10px; padding-left: 5px; padding-right: 5px; font-size: 11pt; text-decoration: none; color: #fafafa;; background-color: #aaaaaa;">팔로잉</a>
+                                            <a onclick="handleFollow(${feed.user_id})" style="border: solid 1px #aaaaaa; border-radius: 4px; height: 25px; margin: 5px 0 0 10px; padding-left: 5px; padding-right: 5px; font-size: 11pt; text-decoration: none; color: #fafafa;; background-color: #aaaaaa;">팔로잉</a>
                                             <!-- <a href= "" style="border: solid 1px #aaaaaa; border-radius: 4px; height: 25px; margin: 5px 0 0 10px; padding-left: 5px; padding-right: 5px; font-size: 11pt; text-decoration: none; color: #aaaaaa;; background-color: #fafafa;">팔로우</a> -->
                                 </div>
                                 <div class="dropdown">
