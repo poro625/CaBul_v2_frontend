@@ -6,6 +6,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Jua&family=Nanum+Gothic+Coding&display=swap" rel="stylesheet">
     <link rel="icon" href="/static/img/CaBul.ico"/>
+    <link rel="stylesheet" href="style/header.css">
     <meta charset="UTF-8">
     <title>CaBul</title>
     <!-- Bootstrap CSS -->
@@ -15,44 +16,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
             crossorigin="anonymous"></script>
-    <style>
-				.title-center {
-            text-align: center;
-            margin-top: 50px;
-        }
-
-        .wrap {
-            width: 400px;
-            margin: 0 auto;
-        }
-
-        .form-area {
-            margin-top: 25px;
-        }
-
-        .timeline-container {
-            margin-top : 25px
-        }
-        
-        *{
-            font-family: 'Jua', sans-serif;
-            font-family: 'Nanum Gothic Coding', monospace;
-        }
-
-        .category {
-            width: 400px;
-            height: 50px;
-            text-align: right;
-            padding: 10px 40px;
-            font-weight: bold;
-            cursor: pointer;
-
-        }
-        .category:hover {
-            background-color: #aaaaaa;
-        }
-
-    </style>
 </head>
 <body>
     
@@ -86,7 +49,7 @@
                 </li>
                 <li class="nav-item active" style="display: flex; flex-direction: row;">
                     <a class="nav-link" href="/articles/upload.html"> 글 작성 </a>
-                    <a class="nav-link" href="/users/profileupload.html"> 프로필 편집 </a>
+                    <a class="nav-link" href="/users/profile_edit_image.html"> 프로필 편집 </a>
                     <a class="nav-link" type="submit" onclick="handleLogout()"> 로그아웃 </a>
                 </li>
             </ul>
