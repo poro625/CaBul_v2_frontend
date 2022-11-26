@@ -167,20 +167,26 @@ window.onload = async function getIndex_API(){
         //     user_id : ${feed.user_id}
         // `)
         
+        // 게시글 주인 팔로우 유무 확인
         follow_check = 0
+        if( me.follow.length == 0 ){
+            if( feed.user_id == me.id ){
+                follow_check =+ 2
+            }
+        }
+        else {
         me.follow.forEach(fme => {
             console.log(`fme : ${fme}`)
             console.log(`feed : ${feed.user_id}`)
             if ( feed.user_id == me.id ) {
                 follow_check =+ 2
-
             }
             else if ( feed.user_id == fme ) {
                 follow_check =+ 1
-
             }
         })
-        // console.log(follow_check)
+    }
+        // 게시글 주인 팔로우 유무에따라 팔로우/팔로잉/공백 버튼 게시글 출력
         if(follow_check == 1){
             console.log(`${feed.pk}번 피드의 ${feed.user}님을 팔로우 중 입니다.`)
             wrap.innerHTML += `<div class="FeedBox" style="background-color: #fafafa; border: solid 1px #aaaaaa; box-shadow: 1px 1px 1px 1px #aaaaaa;">
@@ -230,7 +236,7 @@ window.onload = async function getIndex_API(){
             </div>
         </div>`
         }
-        else if ( follow_check == 0 ){
+        else if ( follow_check == 2 ){
             console.log(`${feed.pk}번 피드의 ${feed.user}님을 팔로우 중이 아닙니다.`)
             wrap.innerHTML += `<div class="FeedBox" style="background-color: #fafafa; border: solid 1px #aaaaaa; box-shadow: 1px 1px 1px 1px #aaaaaa;">
             <div style="width: 300px; min-width: 300px; height: 400px; min-height: 400px;">
@@ -239,7 +245,7 @@ window.onload = async function getIndex_API(){
                     <div onclick="location.href='${frontEndBaseUrl}/users/profile.html?id=${feed.user_id}'" style="font-weight: bold; margin-top: 7px ;">
                     ${feed.user}
                 </div>
-                <a onclick="handleFollow(${feed.user_id})" style="border: solid 1px #aaaaaa; border-radius: 4px; height: 25px; margin: 5px 0 0 10px; padding-left: 5px; padding-right: 5px; font-size: 11pt; text-decoration: none; color: #aaaaaa;; background-color: #fafafa;">팔로우</a>
+                
             </div>
             <div class="dropdown">
                 <button type="button" data-bs-toggle="dropdown" aria-expanded="false" style="border: none; background-color: #fafafa;">
@@ -279,7 +285,7 @@ window.onload = async function getIndex_API(){
             </div>
         </div>`
         }
-        else {
+        else if ( follow_check == 0 ) {
             console.log(`${feed.pk}번 피드는 본 계정 소유 입니다.`)
             wrap.innerHTML += `<div class="FeedBox" style="background-color: #fafafa; border: solid 1px #aaaaaa; box-shadow: 1px 1px 1px 1px #aaaaaa;">
             <div style="width: 300px; min-width: 300px; height: 400px; min-height: 400px;">
@@ -288,6 +294,7 @@ window.onload = async function getIndex_API(){
                     <div onclick="location.href='${frontEndBaseUrl}/users/profile.html?id=${feed.user_id}'" style="font-weight: bold; margin-top: 7px ;">
                     ${feed.user}
                 </div>
+                <a onclick="handleFollow(${feed.user_id})" style="border: solid 1px #aaaaaa; border-radius: 4px; height: 25px; margin: 5px 0 0 10px; padding-left: 5px; padding-right: 5px; font-size: 11pt; text-decoration: none; color: #aaaaaa;; background-color: #fafafa;">팔로우</a>
             </div>
             <div class="dropdown">
                 <button type="button" data-bs-toggle="dropdown" aria-expanded="false" style="border: none; background-color: #fafafa;">
