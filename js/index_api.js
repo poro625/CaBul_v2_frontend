@@ -81,36 +81,6 @@ async function getUser(){
     return response_json
 }
 
-// 사용자 상세 정보 가져오기
-async function getUserDetail(user_id){
-    const response = await fetch(`${backEndBaseUrl}/users/${user_id}/`, {
-        headers: {
-            'content-type': 'application/json',
-            "Authorization":"Bearer " + localStorage.getItem("access")
-        },
-        method: 'GET',
-    })
-
-    const response_json = await response.json()
-    return response_json
-}
-
-// 로그인 사용자 정보 제외 회원 정보 가져오기
-async function getUserFollow(){
-
-    let User_payload = JSON.parse(localStorage.getItem('payload'))
-    const response = await fetch(`${backEndBaseUrl}/users/all/${User_payload.user_id}/`, {
-        headers: {
-            'content-type': 'application/json',
-            "Authorization":"Bearer " + localStorage.getItem("access")
-        },
-        method: 'GET',
-    })
-
-    const response_json = await response.json()
-    return response_json
-}
-
 
 window.onload = async function getIndex_API(){
     let User_payload = JSON.parse(localStorage.getItem('payload'))
@@ -162,13 +132,9 @@ window.onload = async function getIndex_API(){
     page_next_button.innerText = `Next >`
     }
 
-    
-    
-    
-    
-    
 
-    // 반복문
+    // 페이지 카운트 반복문
+    // 현재 페이지 레드 컬러 하이라이트 기능
     var page_number_button = document.getElementsByClassName('PageNumberButton')[0];
     page_number_button_list.forEach(page_number => {
         if(page_id == page_number){
@@ -178,6 +144,10 @@ window.onload = async function getIndex_API(){
             page_number_button.innerHTML += `<li style="margin:3px;"><a style="text-decoration:none; color: black;" href="?page=${page_number}">${page_number}</a></li>`
         }
     })
+
+    // 팔로우 버튼 기능 API
+    me = await getUser()
+    console.log(me)
 
 
     // 게시글 반복 부분
@@ -196,56 +166,172 @@ window.onload = async function getIndex_API(){
         //     updated_at : ${feed.updated_at}
         //     user_id : ${feed.user_id}
         // `)
-        wrap.innerHTML += `<div class="FeedBox" style="background-color: #fafafa; border: solid 1px #aaaaaa; box-shadow: 1px 1px 1px 1px #aaaaaa;">
-                                <div style="width: 300px; min-width: 300px; height: 400px; min-height: 400px;">
-                                    <div style="display: flex; flex-direction: row; justify-content: space-between; height: 40px;"><div style="display: flex; flex-direction: row;">
-                                        <img src="/static/img/default.png" alt="" style="width: 20px; height: 20px; border-radius: 10px; margin: 10px 5px 0 5px;">
-                                        <div onclick="location.href='${frontEndBaseUrl}/users/profile.html?id=${feed.user_id}'" style="font-weight: bold; margin-top: 7px ;">
-                                        ${feed.user}
-                                    </div>
-                                            <a onclick="handleFollow(${feed.user_id})" style="border: solid 1px #aaaaaa; border-radius: 4px; height: 25px; margin: 5px 0 0 10px; padding-left: 5px; padding-right: 5px; font-size: 11pt; text-decoration: none; color: #fafafa;; background-color: #aaaaaa;">팔로잉</a>
-                                            <!-- <a href= "" style="border: solid 1px #aaaaaa; border-radius: 4px; height: 25px; margin: 5px 0 0 10px; padding-left: 5px; padding-right: 5px; font-size: 11pt; text-decoration: none; color: #aaaaaa;; background-color: #fafafa;">팔로우</a> -->
-                                </div>
-                                <div class="dropdown">
-                                    <button type="button" data-bs-toggle="dropdown" aria-expanded="false" style="border: none; background-color: #fafafa;">
-                                        <div style="font-weight: bold; margin: 3px 10px 0 0;">...</div>
-                                    </button>
-                                    <!-- <ul class="dropdown-menu" style="background-color: #fafafa; border: solid 1px #aaaaaa; box-shadow: 1px 1px 1px 1px #aaaaaa;">
-                                        <li><a style="text-decoration: none; color: black; margin-left: 30px;" href="{% url 'contents:post_update' feed.id %}">수정</a></li>
-                                        <li><a style="text-decoration: none; color: red; margin-left: 30px;" href="{% url 'contents:post_delete' feed.id %}">삭제</a></li>
-                                    </ul> -->
-                                </div>
-                                </div>
+        
+        follow_check = 0
+        me.follow.forEach(fme => {
+            console.log(`fme : ${fme}`)
+            console.log(`feed : ${feed.user_id}`)
+            if ( feed.user_id == me.id ) {
+                follow_check =+ 2
 
-                                    <div style="width: 300px; min-width: 300px; height: 280px; min-height: 280px;">
-                                        <img onclick="location.href='/articles/detail.html?id=${feed.pk}'" style="cursor: pointer; width: 300px; min-width: 300px; height: 280px; min-height: 280px; object-fit: cover;" src="${feed.transfer_image}"></div>
-                                    <div style="display: flex; flex-direction: row; justify-content: space-between;"><div style="font-size: 12pt; font-weight: bold; margin: 5px 0 0 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; width: 180px;">${feed.title}</div>
-                                    <form action='' method='post'>
-                                        <div style="display: flex; flex-direction: row;">
-                                            <div style="margin: 10px 5px 0 0; font-size: 10pt;">${feed.like_count}개
-                                            </div>
-                                            <!--post.like_authors.all에 user가 있다면 아래 if문 돌기-->
-                                            <button style="border: none; background: none; margin-top: 3px;"><img onclick="" style="width: 20px; height: 20px; margin: 5px 10px 0 0;" src="/static/icon/heart_bk.png" /></button>
-                                            <!-- <button style="border: none; background: none; margin-top: 3px;"><img onclick="contents:post_likes" style="width: 20px; height: 20px; margin: 5px 10px 0 0;" src="/static/icon/heart.png" /></button> -->
-                                        </div>
-                                    </form>
-                                </div>
-                                    <div style="font-size: 10pt; font-weight: normal; margin: 0 0 0 10px; color: #aaaaaa;">${feed.category}</div>
-                                    <div style="display: flex; flex-direction: row; justify-content: space-between;">
-                                        <div style="display: flex; flex-direction: row; margin: 3px 0 0 8px;">
-                                        <span style="height: 18px; background-color: #aaaaaa; color: #fafafa; border-radius: 5px; font-size: 10pt; margin-left: 3px; padding-left: 3px; padding-right: 3px;">
-                                            #태그
-                                        </span>
-                                        </a>
-                                            <br>
-                                        </div>
-                                        <div style="text-align: right; margin-right: 10px; font-size: 10pt; color: #aaaaaa;">${timeForToday(feed.updated_at)}</div>
-                                    </div>
-                                </div>
-                            </div>`
+            }
+            else if ( feed.user_id == fme ) {
+                follow_check =+ 1
 
+            }
+        })
+        // console.log(follow_check)
+        if(follow_check == 1){
+            console.log(`${feed.pk}번 피드의 ${feed.user}님을 팔로우 중 입니다.`)
+            wrap.innerHTML += `<div class="FeedBox" style="background-color: #fafafa; border: solid 1px #aaaaaa; box-shadow: 1px 1px 1px 1px #aaaaaa;">
+            <div style="width: 300px; min-width: 300px; height: 400px; min-height: 400px;">
+                <div style="display: flex; flex-direction: row; justify-content: space-between; height: 40px;"><div style="display: flex; flex-direction: row;">
+                    <img src="/static/img/default.png" alt="" style="width: 20px; height: 20px; border-radius: 10px; margin: 10px 5px 0 5px;">
+                    <div onclick="location.href='${frontEndBaseUrl}/users/profile.html?id=${feed.user_id}'" style="font-weight: bold; margin-top: 7px ;">
+                    ${feed.user}
+                </div>
+                <a onclick="handleFollow(${feed.user_id})" style="border: solid 1px #aaaaaa; border-radius: 4px; height: 25px; margin: 5px 0 0 10px; padding-left: 5px; padding-right: 5px; font-size: 11pt; text-decoration: none; color: #fafafa;; background-color: #aaaaaa;">팔로잉</a>
+            </div>
+            <div class="dropdown">
+                <button type="button" data-bs-toggle="dropdown" aria-expanded="false" style="border: none; background-color: #fafafa;">
+                    <div style="font-weight: bold; margin: 3px 10px 0 0;">...</div>
+                </button>
+                <!-- <ul class="dropdown-menu" style="background-color: #fafafa; border: solid 1px #aaaaaa; box-shadow: 1px 1px 1px 1px #aaaaaa;">
+                    <li><a style="text-decoration: none; color: black; margin-left: 30px;" href="{% url 'contents:post_update' feed.id %}">수정</a></li>
+                    <li><a style="text-decoration: none; color: red; margin-left: 30px;" href="{% url 'contents:post_delete' feed.id %}">삭제</a></li>
+                </ul> -->
+            </div>
+            </div>
+        
+                <div style="width: 300px; min-width: 300px; height: 280px; min-height: 280px;">
+                    <img onclick="location.href='/articles/detail.html?id=${feed.pk}'" style="cursor: pointer; width: 300px; min-width: 300px; height: 280px; min-height: 280px; object-fit: cover;" src="${feed.transfer_image}"></div>
+                <div style="display: flex; flex-direction: row; justify-content: space-between;"><div style="font-size: 12pt; font-weight: bold; margin: 5px 0 0 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; width: 180px;">${feed.title}</div>
+                <form action='' method='post'>
+                    <div style="display: flex; flex-direction: row;">
+                        <div style="margin: 10px 5px 0 0; font-size: 10pt;">${feed.like_count}개
+                        </div>
+                        <!--post.like_authors.all에 user가 있다면 아래 if문 돌기-->
+                        <button style="border: none; background: none; margin-top: 3px;"><img onclick="" style="width: 20px; height: 20px; margin: 5px 10px 0 0;" src="/static/icon/heart_bk.png" /></button>
+                        <!-- <button style="border: none; background: none; margin-top: 3px;"><img onclick="contents:post_likes" style="width: 20px; height: 20px; margin: 5px 10px 0 0;" src="/static/icon/heart.png" /></button> -->
+                    </div>
+                </form>
+            </div>
+                <div style="font-size: 10pt; font-weight: normal; margin: 0 0 0 10px; color: #aaaaaa;">${feed.category}</div>
+                <div style="display: flex; flex-direction: row; justify-content: space-between;">
+                    <div style="display: flex; flex-direction: row; margin: 3px 0 0 8px;">
+                    <span style="height: 18px; background-color: #aaaaaa; color: #fafafa; border-radius: 5px; font-size: 10pt; margin-left: 3px; padding-left: 3px; padding-right: 3px;">
+                        #태그
+                    </span>
+                    </a>
+                        <br>
+                    </div>
+                    <div style="text-align: right; margin-right: 10px; font-size: 10pt; color: #aaaaaa;">${timeForToday(feed.updated_at)}</div>
+                </div>
+            </div>
+        </div>`
+        }
+        else if ( follow_check == 0 ){
+            console.log(`${feed.pk}번 피드의 ${feed.user}님을 팔로우 중이 아닙니다.`)
+            wrap.innerHTML += `<div class="FeedBox" style="background-color: #fafafa; border: solid 1px #aaaaaa; box-shadow: 1px 1px 1px 1px #aaaaaa;">
+            <div style="width: 300px; min-width: 300px; height: 400px; min-height: 400px;">
+                <div style="display: flex; flex-direction: row; justify-content: space-between; height: 40px;"><div style="display: flex; flex-direction: row;">
+                    <img src="/static/img/default.png" alt="" style="width: 20px; height: 20px; border-radius: 10px; margin: 10px 5px 0 5px;">
+                    <div onclick="location.href='${frontEndBaseUrl}/users/profile.html?id=${feed.user_id}'" style="font-weight: bold; margin-top: 7px ;">
+                    ${feed.user}
+                </div>
+                <a onclick="handleFollow(${feed.user_id})" style="border: solid 1px #aaaaaa; border-radius: 4px; height: 25px; margin: 5px 0 0 10px; padding-left: 5px; padding-right: 5px; font-size: 11pt; text-decoration: none; color: #aaaaaa;; background-color: #fafafa;">팔로우</a>
+            </div>
+            <div class="dropdown">
+                <button type="button" data-bs-toggle="dropdown" aria-expanded="false" style="border: none; background-color: #fafafa;">
+                    <div style="font-weight: bold; margin: 3px 10px 0 0;">...</div>
+                </button>
+                <!-- <ul class="dropdown-menu" style="background-color: #fafafa; border: solid 1px #aaaaaa; box-shadow: 1px 1px 1px 1px #aaaaaa;">
+                    <li><a style="text-decoration: none; color: black; margin-left: 30px;" href="{% url 'contents:post_update' feed.id %}">수정</a></li>
+                    <li><a style="text-decoration: none; color: red; margin-left: 30px;" href="{% url 'contents:post_delete' feed.id %}">삭제</a></li>
+                </ul> -->
+            </div>
+            </div>
+        
+                <div style="width: 300px; min-width: 300px; height: 280px; min-height: 280px;">
+                    <img onclick="location.href='/articles/detail.html?id=${feed.pk}'" style="cursor: pointer; width: 300px; min-width: 300px; height: 280px; min-height: 280px; object-fit: cover;" src="${feed.transfer_image}"></div>
+                <div style="display: flex; flex-direction: row; justify-content: space-between;"><div style="font-size: 12pt; font-weight: bold; margin: 5px 0 0 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; width: 180px;">${feed.title}</div>
+                <form action='' method='post'>
+                    <div style="display: flex; flex-direction: row;">
+                        <div style="margin: 10px 5px 0 0; font-size: 10pt;">${feed.like_count}개
+                        </div>
+                        <!--post.like_authors.all에 user가 있다면 아래 if문 돌기-->
+                        <button style="border: none; background: none; margin-top: 3px;"><img onclick="" style="width: 20px; height: 20px; margin: 5px 10px 0 0;" src="/static/icon/heart_bk.png" /></button>
+                        <!-- <button style="border: none; background: none; margin-top: 3px;"><img onclick="contents:post_likes" style="width: 20px; height: 20px; margin: 5px 10px 0 0;" src="/static/icon/heart.png" /></button> -->
+                    </div>
+                </form>
+            </div>
+                <div style="font-size: 10pt; font-weight: normal; margin: 0 0 0 10px; color: #aaaaaa;">${feed.category}</div>
+                <div style="display: flex; flex-direction: row; justify-content: space-between;">
+                    <div style="display: flex; flex-direction: row; margin: 3px 0 0 8px;">
+                    <span style="height: 18px; background-color: #aaaaaa; color: #fafafa; border-radius: 5px; font-size: 10pt; margin-left: 3px; padding-left: 3px; padding-right: 3px;">
+                        #태그
+                    </span>
+                    </a>
+                        <br>
+                    </div>
+                    <div style="text-align: right; margin-right: 10px; font-size: 10pt; color: #aaaaaa;">${timeForToday(feed.updated_at)}</div>
+                </div>
+            </div>
+        </div>`
+        }
+        else {
+            console.log(`${feed.pk}번 피드는 본 계정 소유 입니다.`)
+            wrap.innerHTML += `<div class="FeedBox" style="background-color: #fafafa; border: solid 1px #aaaaaa; box-shadow: 1px 1px 1px 1px #aaaaaa;">
+            <div style="width: 300px; min-width: 300px; height: 400px; min-height: 400px;">
+                <div style="display: flex; flex-direction: row; justify-content: space-between; height: 40px;"><div style="display: flex; flex-direction: row;">
+                    <img src="/static/img/default.png" alt="" style="width: 20px; height: 20px; border-radius: 10px; margin: 10px 5px 0 5px;">
+                    <div onclick="location.href='${frontEndBaseUrl}/users/profile.html?id=${feed.user_id}'" style="font-weight: bold; margin-top: 7px ;">
+                    ${feed.user}
+                </div>
+            </div>
+            <div class="dropdown">
+                <button type="button" data-bs-toggle="dropdown" aria-expanded="false" style="border: none; background-color: #fafafa;">
+                    <div style="font-weight: bold; margin: 3px 10px 0 0;">...</div>
+                </button>
+                <!-- <ul class="dropdown-menu" style="background-color: #fafafa; border: solid 1px #aaaaaa; box-shadow: 1px 1px 1px 1px #aaaaaa;">
+                    <li><a style="text-decoration: none; color: black; margin-left: 30px;" href="{% url 'contents:post_update' feed.id %}">수정</a></li>
+                    <li><a style="text-decoration: none; color: red; margin-left: 30px;" href="{% url 'contents:post_delete' feed.id %}">삭제</a></li>
+                </ul> -->
+            </div>
+            </div>
+        
+                <div style="width: 300px; min-width: 300px; height: 280px; min-height: 280px;">
+                    <img onclick="location.href='/articles/detail.html?id=${feed.pk}'" style="cursor: pointer; width: 300px; min-width: 300px; height: 280px; min-height: 280px; object-fit: cover;" src="${feed.transfer_image}"></div>
+                <div style="display: flex; flex-direction: row; justify-content: space-between;"><div style="font-size: 12pt; font-weight: bold; margin: 5px 0 0 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; width: 180px;">${feed.title}</div>
+                <form action='' method='post'>
+                    <div style="display: flex; flex-direction: row;">
+                        <div style="margin: 10px 5px 0 0; font-size: 10pt;">${feed.like_count}개
+                        </div>
+                        <!--post.like_authors.all에 user가 있다면 아래 if문 돌기-->
+                        <button style="border: none; background: none; margin-top: 3px;"><img onclick="" style="width: 20px; height: 20px; margin: 5px 10px 0 0;" src="/static/icon/heart_bk.png" /></button>
+                        <!-- <button style="border: none; background: none; margin-top: 3px;"><img onclick="contents:post_likes" style="width: 20px; height: 20px; margin: 5px 10px 0 0;" src="/static/icon/heart.png" /></button> -->
+                    </div>
+                </form>
+            </div>
+                <div style="font-size: 10pt; font-weight: normal; margin: 0 0 0 10px; color: #aaaaaa;">${feed.category}</div>
+                <div style="display: flex; flex-direction: row; justify-content: space-between;">
+                    <div style="display: flex; flex-direction: row; margin: 3px 0 0 8px;">
+                    <span style="height: 18px; background-color: #aaaaaa; color: #fafafa; border-radius: 5px; font-size: 10pt; margin-left: 3px; padding-left: 3px; padding-right: 3px;">
+                        #태그
+                    </span>
+                    </a>
+                        <br>
+                    </div>
+                    <div style="text-align: right; margin-right: 10px; font-size: 10pt; color: #aaaaaa;">${timeForToday(feed.updated_at)}</div>
+                </div>
+            </div>
+        </div>`
+        }
+
+    
         
     });
+
 
     // nav 부분
     // nav 상단 유저 박스 부분
