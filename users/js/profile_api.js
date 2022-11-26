@@ -390,6 +390,7 @@ window.onload = async function getProfile_API(){
     // nav 상단 유저 박스 부분
     var nav_nickname = document.getElementsByClassName('NavUserInfoBoxNickname')[0];
     var nav_name = document.getElementsByClassName('NavUserInfoBoxName')[0];
+    var nav_name2 = document.getElementsByName('NavUserInfoBoxName2')[0];
     var nav_email = document.getElementsByClassName('NavUserInfoBoxEmail')[0];
     var nav_follow = document.getElementsByClassName('NavUserInfoBoxFollow')[0];
     var nav_login = document.getElementsByClassName('NavUserInfoBoxLogin')[0];
@@ -397,6 +398,7 @@ window.onload = async function getProfile_API(){
 
     nav_nickname.innerText = `${nav_user_info.nickname}`
     nav_name.innerText = `${nav_user_info.name}`
+    nav_name2.innerText = `${nav_user_info.name}님 반갑습니다!`
     nav_email.innerText = `${nav_user_info.email}`
     nav_follow.innerText = `팔로잉 ${nav_user_info.follow_count} 명  |  팔로워 ${nav_user_info.followee_count} 명`
     nav_login.innerText = `현재 접속 시간 : ${last_login_time}`

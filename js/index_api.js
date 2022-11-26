@@ -347,7 +347,7 @@ window.onload = async function getIndex_API(){
     // nav 상단 유저 박스 부분
     var nav_nickname = document.getElementsByClassName('NavUserInfoBoxNickname')[0];
     var nav_name = document.getElementsByClassName('NavUserInfoBoxName')[0];
-    var nav_name2 = document.getElementsByClassName('NavUserInfoBoxName2')[0];
+    var nav_name2 = document.getElementsByName('NavUserInfoBoxName2')[0];
     var nav_email = document.getElementsByClassName('NavUserInfoBoxEmail')[0];
     var nav_follow = document.getElementsByClassName('NavUserInfoBoxFollow')[0];
     var nav_login = document.getElementsByClassName('NavUserInfoBoxLogin')[0];
