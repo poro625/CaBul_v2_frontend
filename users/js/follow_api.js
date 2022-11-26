@@ -123,12 +123,13 @@ window.onload = async function getFollow_API(){
         follow_list = await getUserFollow()
         me = await getUser()
         nav_user_info = await getNavUserInfo(User_payload.user_id)
+        nav_user_info = nav_user_info.users
 
         
         var wrap = document.getElementsByClassName('follow_box')[0];
         var nav_nickname = document.getElementsByClassName('NavUserInfoBoxNickname')[0];
         var nav_name = document.getElementsByClassName('NavUserInfoBoxName')[0];
-        var nav_name2 = document.getElementsByClassName('NavUserInfoBoxName2')[0];
+        var nav_name2 = document.getElementsByName('NavUserInfoBoxName2')[0];
         var nav_email = document.getElementsByClassName('NavUserInfoBoxEmail')[0];
         var nav_follow = document.getElementsByClassName('NavUserInfoBoxFollow')[0];
         var nav_login = document.getElementsByClassName('NavUserInfoBoxLogin')[0];
@@ -145,9 +146,10 @@ window.onload = async function getFollow_API(){
             count = 0
             counts = 0
             console.log(`${follow.id}번 유저`)
-            me.follow.forEach(fme =>{
-                // console.log(`fme : ${fme}`)
-                // console.log(`follow : ${follow.id}`)
+            console.log(me)
+            me.users.follow.forEach(fme =>{
+                console.log(`fme : ${fme}`)
+                console.log(`follow : ${follow.id}`)
                 if(fme == follow.id){
                     counts =+1
                 }
