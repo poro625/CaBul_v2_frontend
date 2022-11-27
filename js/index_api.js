@@ -107,20 +107,68 @@ window.onload = async function getIndex_API(){
         
     } else {
     
-        // 좌측 메뉴바 API 연결
-        nav_user_info = await getNavUserInfo(User_payload.user_id)
-        nav_user_info = nav_user_info.users
-        console.log(nav_user_info)
-        nav_category_box = await getNavCategoryBox()
 
-        // 현재 접속한 페이지 번호 확인
-        const page_number = location.search
-        if(page_number == ''){
-            page_id = 1
-        }
-        else {
-            page_id = page_number.replace("?page=", "")
-        }
+      // 좌측 메뉴바 API 연결
+      nav_user_info = await getNavUserInfo(User_payload.user_id)
+      nav_user_info = nav_user_info.users
+      console.log(nav_user_info)
+      nav_category_box = await getNavCategoryBox()
+
+      // 현재 접속한 페이지 번호 확인
+      const page_number = location.search
+      if(page_number == ''){
+          page_id = 1
+      }
+      else {
+          page_id = page_number.replace("?page=", "")
+      }
+
+      // 게시글 전체 리스트 조회(페이지네이션)
+      feed_list = await getIndexFeedList(page_id)
+      feed_list = feed_list.articles
+
+      console.log(feed_list)
+      if ( feed_list.count == 0 ){
+          console.log("게시글 없음")
+      } else {
+
+
+
+
+
+
+
+
+      // 패이지 네이션 관련 로그 확인
+      // console.log(feed_list)
+      // console.log(`page_id : ${page_id}`)
+      // console.log(`count : ${feed_list.count}`)
+      // console.log(`next : ${feed_list.next}`)
+      // console.log(`prev : ${feed_list.previous}`)
+
+      // 게시글 전체 리스트 총 페이지 수 확인
+      page_count = Math.ceil(feed_list.count/12)
+      page_number_button_list = range(1, page_count)
+      // console.log(page_number_button)
+
+      // 페이지네이션 버튼 < prev / 반복문 / next >
+      var page_prev_button = document.getElementsByClassName('PagePrevButton')[0];
+      var page_next_button = document.getElementsByClassName('PageNextButton')[0];
+      prev_button = null
+      next_button = null
+
+      // 이전, 다음 페이지 버튼 유무 확인
+      if(feed_list.previous != null){
+      prev_button = feed_list.previous.replace(`${backEndBaseUrl}/articles/`, "")
+      page_prev_button.setAttribute("href", `${frontEndBaseUrl}/${prev_button}`)
+      page_prev_button.innerText = `< Prev`
+      }
+      if(feed_list.next != null){
+      next_button = feed_list.next.replace(`${backEndBaseUrl}/articles/`, "")
+      page_next_button.setAttribute("href", `${frontEndBaseUrl}/${next_button}`)
+      page_next_button.innerText = `Next >`
+      }
+
 
         // 게시글 전체 리스트 조회(페이지네이션)
         feed_list = await getIndexFeedList(page_id)
@@ -553,7 +601,9 @@ window.onload = async function getIndex_API(){
         });
     
 
+    }
     
+
 
 
         // nav 부분
@@ -582,6 +632,7 @@ window.onload = async function getIndex_API(){
         // nav 하단 카테고리 부분
         var nav_category = document.getElementsByClassName('NavCategory')[0];
         
+
 
         nav_category_box.forEach(category => {
             nav_category.innerHTML += `<div onclick="location.href='${frontEndBaseUrl}/articles/category.html?id=${category.category}'" class="category"><a style="color: #cacaca; text-decoration: none;">${category.category} <b style="font-weight: normal; color: #cacaca;">(${category.count})</b></a></div>`
