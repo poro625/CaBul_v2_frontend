@@ -28,7 +28,10 @@
                         </div>
                         <div class="dropdown">
                             <button type="button" data-bs-toggle="dropdown" aria-expanded="false" style="border: none; background-color: #fafafa;">
-                                <div style="font-weight: bold; margin: 3px 10px 0 0;">...</div>
+                                <div style="font-weight: bold; margin: 3px 10px 0 0;">
+                            <a style="text-decoration: none; color: red; margin-left: 30px;" type="submit"  onclick="deleteFeed()" href="">삭제</a>
+                            <a class="FeedDetailFeedupdate" style="text-decoration: none; color: black; margin-left: 30px;"type="submit" href="">수정</a>
+                                </div>
                             </button>
                             <ul class="dropdown-menu" style="background-color: #fafafa; border: solid 1px #aaaaaa; box-shadow: 1px 1px 1px 1px #aaaaaa;">
                                 <!-- <li><a style="text-decoration: none; color: black; margin-left: 30px;" href="{% url 'contents:post_update' feeds.id %}">수정</a></li>
@@ -133,5 +136,3 @@
 </body>
 
 </html>
-
-
