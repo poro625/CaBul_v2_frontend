@@ -2,12 +2,12 @@ const frontEndBaseUrl = "http://127.0.0.1:5500"
 const backEndBaseUrl = "http://127.0.0.1:8000"
 
 // 프로필 정보 가져오기(게시글 포함)
-async function getCategoryFeedList(ls_category_name, ls_page_id){
-    console.log(`ls_user_id : ${ls_category_name}`)
+async function getProfileFeedList(ls_user_id, ls_page_id){
+    console.log(`ls_user_id : ${ls_user_id}`)
     console.log(`ls_page_id : ${ls_page_id}`)
     if( ls_page_id == "" ){
         console.log("페이지 없음")
-        const response = await fetch(`${backEndBaseUrl}/articles/category/${ls_category_name}/`,{
+        const response = await fetch(`${backEndBaseUrl}/users/${ls_user_id}/`,{
             headers: {
                 'content-type': 'application/json',
                 "Authorization":"Bearer " + localStorage.getItem("access")
@@ -19,7 +19,7 @@ async function getCategoryFeedList(ls_category_name, ls_page_id){
     }
     else {
         console.log("페이지 확인")
-        const response = await fetch(`${backEndBaseUrl}/articles/category/${ls_category_name}/?page=${ls_page_id}`,{
+        const response = await fetch(`${backEndBaseUrl}/users/${ls_user_id}/?page=${ls_page_id}`,{
             headers: {
                 'content-type': 'application/json',
                 "Authorization":"Bearer " + localStorage.getItem("access")
@@ -105,25 +105,25 @@ window.onload = async function getProfile_API(){
     ls = location.search.split("&")
     if(ls.length == 2){
         id = location.search.split("&")
-        ls_category_name = id[0].replace("?id=", "")
+        ls_user_id = id[0].replace("?id=", "")
         ls_page_id = id[1].replace("?page=", "")
     }
     else if ( ls.length == 1 ) {
-        ls_category_name = location.search.replace("?id=", "")
+        ls_user_id = location.search.replace("?id=", "")
         ls_page_id = ""
     }
     else{
-        ls_category_name = User_payload.user_id
+        ls_user_id = User_payload.user_id
         ls_page_id = ""
     }
-    console.log(ls_category_name)
+    console.log(ls_user_id)
     console.log(ls_page_id)
 
 
 
     
     // 좌측 메뉴바 API 연결
-    nav_user_info = await getNavUserInfo(User_payload.user_id)
+    nav_user_info = await getNavUserInfo(ls_user_id)
     nav_user_info = nav_user_info.users
     nav_category_box = await getNavCategoryBox()
 
@@ -133,11 +133,11 @@ window.onload = async function getProfile_API(){
         page_id = 1
     }
     else {
-        page_id = page_number.replace(`?id=${ls_category_name}&?page=`, "")
+        page_id = page_number.replace(`?id=${ls_user_id}&?page=`, "")
     }
 
     // 게시글 정보 조회 API
-    feed_list = await getCategoryFeedList(ls_category_name, ls_page_id)
+    feed_list = await getProfileFeedList(ls_user_id, ls_page_id)
     feed_list = feed_list.articles
     console.log(feed_list)
 
@@ -163,12 +163,12 @@ window.onload = async function getProfile_API(){
     // 이전, 다음 페이지 버튼 유무 확인
     if(feed_list.previous != null){
     prev_button = feed_list.previous.replace(`${backEndBaseUrl}/articles/`, "")
-    page_prev_button.setAttribute("href", `${frontEndBaseUrl}/?id=${ls_category_name}&${prev_button}`)
+    page_prev_button.setAttribute("href", `${frontEndBaseUrl}/?id=${ls_user_id}&${prev_button}`)
     page_prev_button.innerText = `< Prev`
     }
     if(feed_list.next != null){
     next_button = feed_list.next.replace(`${backEndBaseUrl}/articles/`, "")
-    page_next_button.setAttribute("href", `${frontEndBaseUrl}/?id=${ls_category_name}&${next_button}`)
+    page_next_button.setAttribute("href", `${frontEndBaseUrl}/?id=${ls_user_id}&${next_button}`)
     page_next_button.innerText = `Next >`
     }
 
@@ -181,13 +181,13 @@ window.onload = async function getProfile_API(){
             ls_page_id = 1
         }
         if(ls_page_id == ""){
-            page_number_button.innerHTML += `<li style="margin:3px;"><a style="text-decoration:none; color: black;" href="?id=${ls_category_name}&?page=${page_number}">${page_number}</a></li>`
+            page_number_button.innerHTML += `<li style="margin:3px;"><a style="text-decoration:none; color: black;" href="?id=${ls_user_id}&?page=${page_number}">${page_number}</a></li>`
         }
         else if (ls_page_id == page_number) {
-            page_number_button.innerHTML += `<li style="margin:3px;"><a style="text-decoration:none; color: red;" href="?id=${ls_category_name}&?page=${page_number}">${page_number}</a></li>`
+            page_number_button.innerHTML += `<li style="margin:3px;"><a style="text-decoration:none; color: red;" href="?id=${ls_user_id}&?page=${page_number}">${page_number}</a></li>`
         }
         else {
-            page_number_button.innerHTML += `<li style="margin:3px;"><a style="text-decoration:none; color: black;" href="?id=${ls_category_name}&?page=${page_number}">${page_number}</a></li>`
+            page_number_button.innerHTML += `<li style="margin:3px;"><a style="text-decoration:none; color: black;" href="?id=${ls_user_id}&?page=${page_number}">${page_number}</a></li>`
         }
     })
 
@@ -390,6 +390,7 @@ window.onload = async function getProfile_API(){
     // nav 상단 유저 박스 부분
     var nav_nickname = document.getElementsByClassName('NavUserInfoBoxNickname')[0];
     var nav_name = document.getElementsByClassName('NavUserInfoBoxName')[0];
+    var nav_name2 = document.getElementsByName('NavUserInfoBoxName2')[0];
     var nav_email = document.getElementsByClassName('NavUserInfoBoxEmail')[0];
     var nav_follow = document.getElementsByClassName('NavUserInfoBoxFollow')[0];
     var nav_login = document.getElementsByClassName('NavUserInfoBoxLogin')[0];
@@ -397,6 +398,7 @@ window.onload = async function getProfile_API(){
 
     nav_nickname.innerText = `${nav_user_info.nickname}`
     nav_name.innerText = `${nav_user_info.name}`
+    nav_name2.innerText = `${nav_user_info.name}님 반갑습니다!`
     nav_email.innerText = `${nav_user_info.email}`
     nav_follow.innerText = `팔로잉 ${nav_user_info.follow_count} 명  |  팔로워 ${nav_user_info.followee_count} 명`
     nav_login.innerText = `현재 접속 시간 : ${last_login_time}`
