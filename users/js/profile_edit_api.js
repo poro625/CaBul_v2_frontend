@@ -76,6 +76,7 @@ async function updateNickname(){
         
         return response_json
         }
+        
 
         window.onload = async function getProfile_API(){
             console.log("프로필 페이지 접속")
