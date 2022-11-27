@@ -142,8 +142,7 @@ window.onload = async function getFollow_API(){
         nav_follow.innerText = `팔로잉 ${nav_user_info.follow_count} 명  |  팔로워 ${nav_user_info.followee_count} 명`
         nav_login.innerText = `현재 접속 시간 : ${last_login_time}`
 
-        follow_list.forEach(follow => {
-            count = 0
+        follow_list.forEach(follow => {  
             counts = 0
             console.log(`${follow.id}번 유저`)
             console.log(me)
