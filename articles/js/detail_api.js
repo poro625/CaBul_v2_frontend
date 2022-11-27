@@ -67,10 +67,10 @@ async function handleCommentDelete(comment_id) {
             'content-type': 'application/json',
             "Authorization":"Bearer " + localStorage.getItem("access")
         },
-
+        method: 'DELETE',
     })
     if (response.status ==204){
-        alert("삭제되었습니다!")
+        alert("리뷰가 삭제되었습니다!")
         window.location.replace(`${frontEndBaseUrl}/articles/detail.html?id=${feed_id}`);
     }
 }
