@@ -121,6 +121,11 @@ window.onload = async function getIndex_API(){
     feed_list = await getIndexFeedList(page_id)
     feed_list = feed_list.articles
 
+
+
+
+
+
     // 패이지 네이션 관련 로그 확인
     // console.log(feed_list)
     // console.log(`page_id : ${page_id}`)
@@ -548,7 +553,7 @@ window.onload = async function getIndex_API(){
     });
 
     
-
+    
 
     // nav 부분
     // nav 상단 유저 박스 부분
