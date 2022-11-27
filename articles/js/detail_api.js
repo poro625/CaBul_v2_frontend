@@ -67,6 +67,7 @@ async function handleCommentDelete(comment_id) {
             'content-type': 'application/json',
             "Authorization":"Bearer " + localStorage.getItem("access")
         },
+        method: 'DELETE',
 
     })
     if (response.status ==204){
