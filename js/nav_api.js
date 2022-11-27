@@ -1,3 +1,5 @@
+console.log('nav_api 연결 시작')
+
 async function getNavUserInfo(user_id){
     const response = await fetch(`${backEndBaseUrl}/users/${user_id}/`,{
         headers: {
@@ -8,7 +10,6 @@ async function getNavUserInfo(user_id){
     })
 
     response_json = await response.json()
-    console.log(response_json)
     return response_json
 }
 
@@ -22,7 +23,6 @@ async function getNavCategoryBox(){
     })
 
     response_json = await response.json()
-    console.log(response_json)
     return response_json
 }
 
@@ -69,5 +69,6 @@ async function handleDelete(){   //mock 함수
         alert("회원탈퇴 완료!")
         window.location.replace(`${frontEndBaseUrl}/users/login.html`);
     }
-    console.log(response)
 }
+
+console.log('nav_api 연결 완료')

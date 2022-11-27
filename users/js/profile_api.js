@@ -1,18 +1,35 @@
 const frontEndBaseUrl = "http://127.0.0.1:5500"
 const backEndBaseUrl = "http://127.0.0.1:8000"
 
-// 게시글 전체 리스트 조회
-async function getIndexFeedList(page_id){
-    const response = await fetch(`${backEndBaseUrl}/articles/?page=${page_id}`,{
-        headers: {
-            'content-type': 'application/json',
-            "Authorization":"Bearer " + localStorage.getItem("access")
-        },
-        method:'GET',
-    })
+// 프로필 정보 가져오기(게시글 포함)
+async function getProfileFeedList(ls_user_id, ls_page_id){
+    console.log(`ls_user_id : ${ls_user_id}`)
+    console.log(`ls_page_id : ${ls_page_id}`)
+    if( ls_page_id == "" ){
+        console.log("페이지 없음")
+        const response = await fetch(`${backEndBaseUrl}/users/${ls_user_id}/`,{
+            headers: {
+                'content-type': 'application/json',
+                "Authorization":"Bearer " + localStorage.getItem("access")
+            },
+            method:'GET',
+        })
+        response_json = await response.json()
+        return response_json
+    }
+    else {
+        console.log("페이지 확인")
+        const response = await fetch(`${backEndBaseUrl}/users/${ls_user_id}/?page=${ls_page_id}`,{
+            headers: {
+                'content-type': 'application/json',
+                "Authorization":"Bearer " + localStorage.getItem("access")
+            },
+            method:'GET',
+        })
+        response_json = await response.json()
+        return response_json
+    }
 
-    response_json = await response.json()
-    return response_json
 }
 
 // start ~ end 까지 숫자 리스트에 담아주기
@@ -82,13 +99,32 @@ async function getUser(){
 }
 
 
-window.onload = async function getIndex_API(){
+window.onload = async function getProfile_API(){
+    console.log("프로필 페이지 접속")
     let User_payload = JSON.parse(localStorage.getItem('payload'))
+    ls = location.search.split("&")
+    if(ls.length == 2){
+        id = location.search.split("&")
+        ls_user_id = id[0].replace("?id=", "")
+        ls_page_id = id[1].replace("?page=", "")
+    }
+    else if ( ls.length == 1 ) {
+        ls_user_id = location.search.replace("?id=", "")
+        ls_page_id = ""
+    }
+    else{
+        ls_user_id = User_payload.user_id
+        ls_page_id = ""
+    }
+    console.log(ls_user_id)
+    console.log(ls_page_id)
+
+
+
     
     // 좌측 메뉴바 API 연결
-    nav_user_info = await getNavUserInfo(User_payload.user_id)
+    nav_user_info = await getNavUserInfo(ls_user_id)
     nav_user_info = nav_user_info.users
-    // console.log(nav_user_info)
     nav_category_box = await getNavCategoryBox()
 
     // 현재 접속한 페이지 번호 확인
@@ -97,14 +133,15 @@ window.onload = async function getIndex_API(){
         page_id = 1
     }
     else {
-        page_id = page_number.replace("?page=", "")
+        page_id = page_number.replace(`?id=${ls_user_id}&?page=`, "")
     }
 
-    // 게시글 전체 리스트 조회(페이지네이션)
-    feed_list = await getIndexFeedList(page_id)
+    // 게시글 정보 조회 API
+    feed_list = await getProfileFeedList(ls_user_id, ls_page_id)
     feed_list = feed_list.articles
+    console.log(feed_list)
 
-    // 패이지 네이션 관련 로그 확인
+// 패이지 네이션 관련 로그 확인
     // console.log(feed_list)
     // console.log(`page_id : ${page_id}`)
     // console.log(`count : ${feed_list.count}`)
@@ -113,6 +150,7 @@ window.onload = async function getIndex_API(){
 
     // 게시글 전체 리스트 총 페이지 수 확인
     page_count = Math.ceil(feed_list.count/12)
+    console.log(page_count)
     page_number_button_list = range(1, page_count)
     // console.log(page_number_button)
 
@@ -125,12 +163,12 @@ window.onload = async function getIndex_API(){
     // 이전, 다음 페이지 버튼 유무 확인
     if(feed_list.previous != null){
     prev_button = feed_list.previous.replace(`${backEndBaseUrl}/articles/`, "")
-    page_prev_button.setAttribute("href", `${frontEndBaseUrl}/${prev_button}`)
+    page_prev_button.setAttribute("href", `${frontEndBaseUrl}/?id=${ls_user_id}&${prev_button}`)
     page_prev_button.innerText = `< Prev`
     }
     if(feed_list.next != null){
     next_button = feed_list.next.replace(`${backEndBaseUrl}/articles/`, "")
-    page_next_button.setAttribute("href", `${frontEndBaseUrl}/${next_button}`)
+    page_next_button.setAttribute("href", `${frontEndBaseUrl}/?id=${ls_user_id}&${next_button}`)
     page_next_button.innerText = `Next >`
     }
 
@@ -139,25 +177,31 @@ window.onload = async function getIndex_API(){
     // 현재 페이지 레드 컬러 하이라이트 기능
     var page_number_button = document.getElementsByClassName('PageNumberButton')[0];
     page_number_button_list.forEach(page_number => {
-        if(page_id == page_number){
-        page_number_button.innerHTML += `<li style="margin:3px;"><a style="text-decoration:none; color: red;" href="?page=${page_number}">${page_number}</a></li>`
+        if (ls_page_id == ""){
+            ls_page_id = 1
         }
-        else{
-            page_number_button.innerHTML += `<li style="margin:3px;"><a style="text-decoration:none; color: black;" href="?page=${page_number}">${page_number}</a></li>`
+        if(ls_page_id == ""){
+            page_number_button.innerHTML += `<li style="margin:3px;"><a style="text-decoration:none; color: black;" href="?id=${ls_user_id}&?page=${page_number}">${page_number}</a></li>`
+        }
+        else if (ls_page_id == page_number) {
+            page_number_button.innerHTML += `<li style="margin:3px;"><a style="text-decoration:none; color: red;" href="?id=${ls_user_id}&?page=${page_number}">${page_number}</a></li>`
+        }
+        else {
+            page_number_button.innerHTML += `<li style="margin:3px;"><a style="text-decoration:none; color: black;" href="?id=${ls_user_id}&?page=${page_number}">${page_number}</a></li>`
         }
     })
 
     // 팔로우 버튼 기능 API
     me = await getUser()
     me = me.users
-    // console.log(me)
+    console.log(me)
 
 
     // 게시글 반복 부분
     var wrap = document.getElementsByClassName('FeedBoxCont')[0];
 
     feed_list.results.forEach(feed => {
-        // console.log(feed)
+        console.log(feed)
         // console.log(`
         //     pk : ${feed.pk}
         //     user : ${feed.user}
@@ -179,8 +223,8 @@ window.onload = async function getIndex_API(){
         }
         else {
         me.follow.forEach(fme => {
-            // console.log(`fme : ${fme}`)
-            // console.log(`feed : ${feed.user_id}`)
+            console.log(`fme : ${fme}`)
+            console.log(`feed : ${feed.user_id}`)
             if ( feed.user_id == me.id ) {
                 follow_check =+ 2
             }
@@ -342,7 +386,6 @@ window.onload = async function getIndex_API(){
         
     });
 
-
     // nav 부분
     // nav 상단 유저 박스 부분
     var nav_nickname = document.getElementsByClassName('NavUserInfoBoxNickname')[0];
@@ -352,7 +395,6 @@ window.onload = async function getIndex_API(){
     var nav_follow = document.getElementsByClassName('NavUserInfoBoxFollow')[0];
     var nav_login = document.getElementsByClassName('NavUserInfoBoxLogin')[0];
     last_login_time = timeForToday(nav_user_info.last_login)
-    // var nav_profile_link = document.getElementsByClassName('NavUserInfoBoxProfileLink')[0];
 
     nav_nickname.innerText = `${nav_user_info.nickname}`
     nav_name.innerText = `${nav_user_info.name}`
@@ -360,13 +402,13 @@ window.onload = async function getIndex_API(){
     nav_email.innerText = `${nav_user_info.email}`
     nav_follow.innerText = `팔로잉 ${nav_user_info.follow_count} 명  |  팔로워 ${nav_user_info.followee_count} 명`
     nav_login.innerText = `현재 접속 시간 : ${last_login_time}`
-    // nav_profile_link.setAttribute("onclick", `${frontEndBaseUrl}/users/profile.html?id=${nav_user_info.id}`)
+
 
     // nav 하단 카테고리 부분
     var nav_category = document.getElementsByClassName('NavCategory')[0];
     
 
     nav_category_box.forEach(category => {
-        nav_category.innerHTML += `<div onclick="location.href='${frontEndBaseUrl}/articles/category.html?id=${category.category}'" class="category"><a style="color: #cacaca; text-decoration: none;">${category.category} <b style="font-weight: normal; color: #cacaca;">(${category.count})</b></a></div>`
+        nav_category.innerHTML += `<div class="category"><a onclick="location.href='${frontEndBaseUrl}/articles/category.html?id=${category.category}'" style="color: #cacaca; text-decoration: none;">${category.category} <b style="font-weight: normal; color: #cacaca;">(${category.count})</b></a></div>`
     });
 }

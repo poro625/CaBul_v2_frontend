@@ -1,14 +1,17 @@
 
+ <div data-include-path="../header.html"></div>
+ <div style="display: flex; flex-direction: row;">
+     <div data-include-path="../nav.html"></div> 
      <div class="main_body" style="margin-left:100px; height: 100vh;">
             <div
                 style="width: 65vw; height: 90vh; min-height: 1000px; margin: 30px auto auto auto; display: flex; flex-direction: row;">
                 <div
                     style="background-color: #ffffff; width: 15vw; height: 90vh; min-height: 1000px; border: solid 1px lightgray; border-radius: 10px 0 0 10px;">
                     <div style="display: flex; flex-direction: column; margin-left: 30px;">
-                    <a class="nav-link" href="http://127.0.0.1:5500/users/profileupload.html"> 프로필 편집 </a>
-                    <a class="nav-link" href="http://127.0.0.1:5500/users/profile_edit.html"> 프로필 사진 변경 </a>
-                    <a class="nav-link" href="http://127.0.0.1:5500/users/profile_edit_password.html"> 비밀번호 변경 </a>
-                    <a class="nav-link" href="http://127.0.0.1:5500/signup.html" onclick="return confirm('정말 회원 탈퇴하시겠습니까?');" style="color: red; text-decoration: none;">회원 탈퇴</a>
+                    <a class="nav-link" href="/users/profile_edit_image.html"> 프로필 사진 변경 </a>
+                    <a class="nav-link" href="/users/profile_edit.html"> 프로필 편집 </a>
+                    <a class="nav-link" href="/users/profile_edit_password.html"> 비밀번호 변경 </a>
+                    <a class="nav-link" href="/signup.html" onclick="return confirm('정말 회원 탈퇴하시겠습니까?');" style="color: red; text-decoration: none;">회원 탈퇴</a>
                         </div>
                 </div>
 
@@ -22,30 +25,50 @@
                     이메일
                 </div>
             </div>
-            <form></form>
-            <form action="/user/edit/{{ user.id }}/" method='POST'> 
-            <form action="{% url 'users:update' user.id %}" method="POST" enctype="multipart/form-data" >
+           
                 
                 <div style="display: flex; flex-direction: row;">
                     <div style="width: 15vw; height: 4vh; min-height: 40px; margin: 1vh 30px 0 0; text-align: right;"> <b>이름</b> </div>
-                    <div style="width: 35vw; height: 4vh; min-height: 40px;  margin-top: 1vh;"><input type="text" style="border: solid 1px lightgray; border-radius: 3px; width: 25vw;" name="username"></div>
+                    <div style="width: 35vw; height: 4vh; min-height: 40px;  margin-top: 1vh;"><input type="text" style="border: solid 1px lightgray; border-radius: 3px; width: 25vw;" id="username" name="username"></div>
                 </div>
                 <div style="display: flex; flex-direction: row;">
                     <div style="width: 15vw; height: 4vh; min-height: 40px; margin: 1vh 30px 0 0; text-align: right;"> <b>닉네임</b> </div>
-                    <div style="width: 35vw; height: 4vh; min-height: 40px;  margin-top: 1vh;"><input type="text" style="border: solid 1px lightgray; border-radius: 3px; width: 25vw;" name="nickname"></div>
+                    <div style="width: 35vw; height: 4vh; min-height: 40px;  margin-top: 1vh;"><input type="text" style="border: solid 1px lightgray; border-radius: 3px; width: 25vw;" id="nickname" name="nickname"></div>
                 </div>
     
                 <div style="display: flex; flex-direction: row;">
                     <div style="width: 15vw; height: 4vh; min-height: 40px; margin: 1vh 30px 0 0; text-align: right;"></div>
-                    <div style="width: 35vw; height: 4vh; min-height: 40px; margin-top: 1vh;"><button type="submit" class="btn btn-primary">제출</button></div>
+                    <div style="width: 35vw; height: 4vh; min-height: 40px; margin-top: 1vh;"><button type="submit" onclick ="updateNickname()" class="btn btn-primary">제출</button></div>
                 </div>
             
-            </form>
 
 
                 </div>
             </div>
         </div>
+        <!-- <div data-include-path="/footer.html"></div> -->
+        <script src="js/profile_edit_api.js"></script>
+        <script src="/js/header_api.js"></script>
+        <script>
+
+            window.addEventListener('load', function() {
+                    var allElements = document.getElementsByTagName('*');
+                    Array.prototype.forEach.call(allElements, function(el) {
+                        var includePath = el.dataset.includePath;
+                        if (includePath) {
+                            var xhttp = new XMLHttpRequest();
+                            xhttp.onreadystatechange = function () {
+                                if (this.readyState == 4 && this.status == 200) {
+                                    el.outerHTML = this.responseText;
+                                }
+                            };
+                            xhttp.open('GET', includePath, true);
+                            xhttp.send();
+                        }
+                    });
+                });
+                
+        </script>
 
 
 

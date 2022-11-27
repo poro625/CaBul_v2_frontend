@@ -21,12 +21,12 @@
 
 </head>
 <body>
-    <div style="background-color: white; width: 400px; height: 200vh;">
+    <div style="background-color: white; width: 400px; max-height: 100vh; min-height: 1500px;">
         <div style="display: flex; flex-direction: column; width: 400px; height: 250px; background-color: #fafafa; margin-top: 30px; border: solid 1px #aaaaaa; border-left: none; box-shadow: 1px 1px 1px 1px #aaaaaa;">
             <div style="display: flex; flex-direction: row;">
                 <div style="display: flex; flex-direction: column; text-align: center;">
                     
-                    <img src="/static/img/default.png" alt="" style="width: 140px; height: 140px; object-fit: cover; border-radius: 70px; margin: 25px;">
+                    <img class="NavUserInfoBoxProfileLink()" src="/static/img/default.png" alt="" style="width: 140px; height: 140px; object-fit: cover; border-radius: 70px; margin: 25px;">
                     <div onclick="location.href='/users/profileupload/{{ user.id }}'" style="width: 30px; height: 30px; object-fit: cover; border-radius: 15px; position: absolute; top: 220px; left: 130px; font-size: 20pt; background-color: #aaaaaa; color: #fafafa; cursor: pointer;">+</div>
                 </div>
                 <div style="display: flex; flex-direction: column;">
@@ -41,8 +41,8 @@
                 </div>
             </div>
             <div style="display: flex; flex-direction: row; margin: 0 auto 0 auto;">
-                <div style="margin: 10px; font-size: 10pt;"><a style="text-decoration: none;" href=""><b>글 작성</b></a></div>
-                <div style="margin: 10px; font-size: 10pt;"><a style="text-decoration: none;" href=""><b>프로필 편집</b></a></div>
+                <div style="margin: 10px; font-size: 10pt;"><a style="text-decoration: none;" href="/articles/upload.html"><b>글 작성</b></a></div>
+                <div style="margin: 10px; font-size: 10pt;"><a style="text-decoration: none;" href="/users/profile_edit_image.html"><b>프로필 편집</b></a></div>
 
                 <div style="margin: 10px; font-size: 10pt;"><a style="text-decoration: none; color: red;" onclick="handleLogout()"><b>로그 아웃</b></a></div>
 
