@@ -121,6 +121,13 @@ window.onload = async function getIndex_API(){
     feed_list = await getIndexFeedList(page_id)
     feed_list = feed_list.articles
 
+    console.log(feed_list)
+    if ( feed_list.count == 0 ){
+        console.log("게시글 없음")
+    } else {
+
+    
+    
 
 
 
@@ -552,7 +559,7 @@ window.onload = async function getIndex_API(){
         
     });
 
-    
+    }
     
 
     // nav 부분

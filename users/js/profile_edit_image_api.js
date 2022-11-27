@@ -102,6 +102,16 @@ window.onload = async function getProfile_API(){
     nav_category_box.forEach(category => {
         nav_category.innerHTML += `<div onclick="location.href='${frontEndBaseUrl}/articles/category.html?id=${category.category}'" class="category"><a style="color: #cacaca; text-decoration: none;">${category.category} <b style="font-weight: normal; color: #cacaca;">(${category.count})</b></a></div>`
     });
+
+    // 프로필 정보
+    profile_user = await getNavUserInfo(User_payload.user_id)
+    profile_user = profile_user.users
+    var info_change_profile_image = document.getElementsByName('InfoChangeProfileImage')[0];
+    var info_change_nickname = document.getElementsByName('InfoChangeNickname')[0];
+    var info_change_email = document.getElementsByName('InfoChangeEmail')[0];
+    info_change_profile_image.setAttribute("src", `${backEndBaseUrl}/${profile_user.profile_image}`)
+    info_change_nickname.innerText = `${profile_user.nickname}`
+    info_change_email.innerText = `${profile_user.email}`
 }
 
 
