@@ -130,7 +130,7 @@ window.onload = async function getSearch_api(){
             search_title.innerHTML += ` <div style="display: flex; flex-direction: row; width: 60vw; height: 50px; background-color: white; margin: 0 auto 0 40px; text-align: center; border-bottom: solid 1px #c8c4c4;">
                                             <div style="width: 5vw; min-width: 50px; margin: auto;">${search.id}</div>
                                             <div style="width: 5vw; min-width: 50px; margin: auto;">${search.category}</div>
-                                            <div style="width: 25vw; min-width: 250px; margin: auto auto auto auto; padding-left: 30px; text-align: left;"><a href="" style="color: black; text-decoration: none;"><b>${search.title}</b></a></div>
+                                            <div style="width: 25vw; min-width: 250px; margin: auto auto auto auto; padding-left: 30px; text-align: left;"><a href="${frontEndBaseUrl}/articles/detail.html?id=${search.id}" style="color: black; text-decoration: none;"><b>${search.title}</b></a></div>
                                             <div style="width: 10vw; min-width: 100px; margin: auto;">${search.user}</div>
                                             <div style="width: 15vw; min-width: 150px; margin: auto;">${timeForToday(search.created_at)}</div>
                                         </div>`
