@@ -397,6 +397,7 @@ window.onload = async function getProfile_API(){
     last_login_time = timeForToday(nav_user_info.last_login)
     var nav_profile_image = document.getElementsByClassName('NavUserInfoBoxProfileImage')[0];
     // var nav_profile_link = document.getElementsByClassName('NavUserInfoBoxProfileLink')[0];
+    var nav_feed_count = document.getElementsByClassName('NavUserInfoBoxFeedCount')[0];
 
     nav_nickname.innerText = `${nav_user_info.nickname}`
     nav_name.innerText = `${nav_user_info.name}`
@@ -406,7 +407,7 @@ window.onload = async function getProfile_API(){
     nav_login.innerText = `현재 접속 시간 : ${last_login_time}`
     // nav_profile_link.setAttribute("onclick", `${frontEndBaseUrl}/users/profile.html?id=${nav_user_info.id}`)
     nav_profile_image.setAttribute("src", `${backEndBaseUrl}${nav_user_info.profile_image}`)
-    console.log(`${backEndBaseUrl}${nav_user_info.profile_image}`)
+    nav_feed_count.innerText = `작성한 글 : ${nav_user_info.feed_set_count} 개`
 
     // nav 하단 카테고리 부분
     var nav_category = document.getElementsByClassName('NavCategory')[0];

@@ -88,7 +88,7 @@ window.onload = async function getIndex_API(){
     // 좌측 메뉴바 API 연결
     nav_user_info = await getNavUserInfo(User_payload.user_id)
     nav_user_info = nav_user_info.users
-    // console.log(nav_user_info)
+    console.log(nav_user_info)
     nav_category_box = await getNavCategoryBox()
 
     // 현재 접속한 페이지 번호 확인
@@ -353,6 +353,7 @@ window.onload = async function getIndex_API(){
     var nav_login = document.getElementsByClassName('NavUserInfoBoxLogin')[0];
     last_login_time = timeForToday(nav_user_info.last_login)
     var nav_profile_image = document.getElementsByClassName('NavUserInfoBoxProfileImage')[0];
+    var nav_feed_count = document.getElementsByClassName('NavUserInfoBoxFeedCount')[0];
     // var nav_profile_link = document.getElementsByClassName('NavUserInfoBoxProfileLink')[0];
 
     nav_nickname.innerText = `${nav_user_info.nickname}`
@@ -363,6 +364,7 @@ window.onload = async function getIndex_API(){
     nav_login.innerText = `현재 접속 시간 : ${last_login_time}`
     // nav_profile_link.setAttribute("onclick", `${frontEndBaseUrl}/users/profile.html?id=${nav_user_info.id}`)
     nav_profile_image.setAttribute("src", `${backEndBaseUrl}${nav_user_info.profile_image}`)
+    nav_feed_count.innerText = `작성한 글 : ${nav_user_info.feed_set_count} 개`
     
     // nav 하단 카테고리 부분
     var nav_category = document.getElementsByClassName('NavCategory')[0];
