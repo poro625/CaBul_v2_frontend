@@ -17,7 +17,7 @@ async function handleSignup() {
     const password2 = document.getElementById("password2").value
     console.log(email, nickname, password1, password2)
 
-    const response = await fetch('http://127.0.0.1:8000/users/dj-rest-auth/registration/', {
+    const response = await fetch(`${backEndBaseUrl}/users/dj-rest-auth/registration/`, { 
         headers: {
             'content-type': 'application/json',
         },
