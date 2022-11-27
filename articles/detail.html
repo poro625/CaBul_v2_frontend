@@ -54,15 +54,14 @@
                                     
                                 </div>
                                 <div>
-                                    <form action='{% url 'contents:post_likes' feeds.id %}' method='post'>
                                         <div style="display: flex; flex-direction: row;">
-                                            <div style="margin: 10px 5px 0 0; font-size: 10pt;">좋아요n개
+                                            <div id="like_count" style="margin: 10px 5px 0 0; font-size: 10pt;">좋아요n개
                                             </div>
-                                            <!-- 좋아요 부분 -->
-                                            <button style="border: none; background: none; margin-top: 3px;"><img onclick="contents:post_likes" style="width: 20px; height: 20px; margin: 5px 10px 0 0;" src="../static/icon/heart_bk.png" /></button>
-                                            <!-- <button style="border: none; background: none; margin-top: 3px;"><img onclick="contents:post_likes" style="width: 20px; height: 20px; margin: 5px 10px 0 0;" src="../static/icon/heart.png" /></button> -->
+                                            <div class="like_box">
+                                            <!-- <button style="border: none; background: none; margin-top: 3px;"><img onclick="contents:post_likes" style="width: 20px; height: 20px; margin: 5px 10px 0 0;" src="../static/icon/heart.png" /></button>
+                                            <button style="border: none; background: none; margin-top: 3px;"><img onclick="handleLike(feed.pk)" style="width: 20px; height: 20px; margin: 5px 10px 0 0;" src="../static/icon/heart_bk.png" /></button> -->
                                         </div>
-                                    </form>
+                                        </div>
                                 </div>
                             </div>
                             <div class="FeedDetailFeedCategory" style="font-size: 10pt; font-weight: normal; margin: 0 0 0 10px; color: #aaaaaa;">

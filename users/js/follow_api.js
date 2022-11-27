@@ -163,8 +163,7 @@ window.onload = async function getFollow_API(){
         });
 
 
-        follow_list.forEach(follow => {
-            count = 0
+        follow_list.forEach(follow => {  
             counts = 0
             console.log(`${follow.id}번 유저`)
             console.log(me)

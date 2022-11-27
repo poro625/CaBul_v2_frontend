@@ -12,6 +12,7 @@ async function getIndexFeedDetail(id){
     })
 
     response_json = await response.json()
+    console.log(response_json)
     return response_json
 }
 
@@ -74,6 +75,39 @@ function timeForToday(value) {
 
     return `${Math.floor(betweenTimeDay / 365)}년전`;
 }
+//좋아요 정보 가져오기
+async function getLike(){
+    feed_id = location.search.replace("?id=","")
+    const response = await fetch(`${backEndBaseUrl}/articles/${feed_id}/`, {
+        headers: {
+            'content-type': 'application/json',
+            "Authorization":"Bearer " + localStorage.getItem("access")
+        },
+        method: 'GET',
+    })
+
+    const response_json = await response.json()
+    return response_json
+}
+
+async function handleLike(){
+    console.log("좋아요했습니다")
+
+    feed_id = location.search.replace("?id=","")
+
+
+    const response = await fetch(`${backEndBaseUrl}/articles/${feed_id}/like/`, {
+    headers: {
+        'content-type': 'application/json',
+        "Authorization":"Bearer " + localStorage.getItem("access")
+    },
+    method: 'POST',
+    body: JSON.stringify({
+
+        })
+    })
+    window.location.reload()
+}
 
 window.onload = async function getIndexDetail_API(){
     let User_payload = JSON.parse(localStorage.getItem('payload'))
@@ -82,12 +116,17 @@ window.onload = async function getIndexDetail_API(){
         
         
     } else {
-        const id = location.search.replace("?id=", "")
-        feed = await getIndexFeedDetail(id)
+        const feed_id = location.search.replace("?id=", "")
+        feed = await getIndexFeedDetail(feed_id)
+        console.log(feed)
         comments = feed.comments
         created_at = timeForToday(feed.created_at)
+        like_List = await getLike()
+        
 
         // var wrap = document.getElementsByClassName('FeedDetailBox')[0];
+        var like_wrap = document.getElementsByClassName('like_box')[0];
+        var like_count = document.getElementById('like_count')
         var comment_wrap = document.getElementsByClassName('CommentDetailList')[0];
         var feed_nickname = document.getElementsByClassName('FeedDetailUserNickname')[0];
         var feed_transfer_image = document.getElementsByClassName('FeedDetailTransferImage')[0];
@@ -97,7 +136,38 @@ window.onload = async function getIndexDetail_API(){
         var feed_created_at = document.getElementsByClassName('FeedDetailFeedCreated')[0];
         var feed_profile_image = document.getElementsByClassName('FeedDetailFeedProfileImage')[0];
 
+
         // wrap.innerHTML = ``
+        if(like_List.like.length == 0){
+        // console.log("좋아요 한 유저가 없을때")
+        like_wrap.innerHTML +=`<button style="border: none; background: none; margin-top: 3px;"><img onclick="handleLike()" style="width: 20px; height: 20px; margin: 5px 10px 0 0;" src="../static/icon/heart.png" /></button>`
+        }
+        else{
+            // console.log("좋아요 한 유저가 있을때")
+            counts = 0
+        // 게시물 좋아요 유무를 체크하는 조건문 부분
+            like_List.like.forEach(liker => {
+
+                if(liker==User_payload.user_id){
+                // console.log(`${liker}유저가 이 게시물을 좋아요 중입니다`)
+                counts = +1
+            }
+                else{
+                // console.log(`${liker}유저가 이 게시물을 좋아요 중이 아닙니다`)
+                }
+            })
+        // 체크한 부분을 토대로 출력해주는 부분
+            if(counts==1){
+                // console.log(`${like_List.pk}번 게시물을 이 유저가 좋아요 중입니다`)
+                like_wrap.innerHTML +=`<button style="border: none; background: none; margin-top: 3px;"><img onclick="handleLike()" style="width: 20px; height: 20px; margin: 5px 10px 0 0;" src="../static/icon/heart_bk.png" /></button>`
+            }
+            else{
+                // console.log(`${like_List.pk}번 게시물을 이 유저가 좋아요 중이 아닙니다`)
+                like_wrap.innerHTML +=`<button style="border: none; background: none; margin-top: 3px;"><img onclick="handleLike()" style="width: 20px; height: 20px; margin: 5px 10px 0 0;" src="../static/icon/heart.png" /></button>`
+            }
+        }
+        like_count.innerText = `좋아요${like_List.like_count}개`
+       
 
         comments.forEach(cmt => {
             comment_wrap.innerHTML += `<div style="display: flex; flex-direction: row; justify-content: space-between ;">
