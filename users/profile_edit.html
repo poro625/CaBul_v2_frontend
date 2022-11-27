@@ -8,10 +8,10 @@
                 <div
                     style="background-color: #ffffff; width: 15vw; height: 90vh; min-height: 1000px; border: solid 1px lightgray; border-radius: 10px 0 0 10px;">
                     <div style="display: flex; flex-direction: column; margin-left: 30px;">
-                    <a class="nav-link" href="http://127.0.0.1:5500/users/profileupload.html"> 프로필 사진 변경 </a>
-                    <a class="nav-link" href="http://127.0.0.1:5500/users/profile_edit.html"> 프로필 편집 </a>
-                    <a class="nav-link" href="http://127.0.0.1:5500/users/profile_edit_password.html"> 비밀번호 변경 </a>
-                    <a class="nav-link" href="http://127.0.0.1:5500/signup.html" onclick="return confirm('정말 회원 탈퇴하시겠습니까?');" style="color: red; text-decoration: none;">회원 탈퇴</a>
+                    <a class="nav-link" href="/users/profile_edit_image.html"> 프로필 사진 변경 </a>
+                    <a class="nav-link" href="/users/profile_edit.html"> 프로필 편집 </a>
+                    <a class="nav-link" href="/users/profile_edit_password.html"> 비밀번호 변경 </a>
+                    <a class="nav-link" href="/signup.html" onclick="return confirm('정말 회원 탈퇴하시겠습니까?');" style="color: red; text-decoration: none;">회원 탈퇴</a>
                         </div>
                 </div>
 
@@ -46,7 +46,9 @@
                 </div>
             </div>
         </div>
-        <script src="js/nickname_api.js"></script>
+        <!-- <div data-include-path="/footer.html"></div> -->
+        <script src="js/profile_edit_api.js"></script>
+        <script src="/js/header_api.js"></script>
         <script>
 
             window.addEventListener('load', function() {

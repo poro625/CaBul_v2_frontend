@@ -8,22 +8,7 @@
 
     <title>상세 페이지</title>
 
-    <style>
-        .FeedBoxCont {
-            width: 1400px;
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            margin: 0 0 0 100px;
-        }
 
-        .FeedBox {
-            display: flex;
-            width: 300px;
-            height: 400px;
-            margin-top: 30px;
-
-        }
-    </style>
 
 </head>
 
@@ -119,10 +104,10 @@
                     </div>
                 </div>
             </div>
+            
         </div>
-
-
-
+    </div>
+    <div data-include-path="/footer.html"></div>
     <script>
         // html 상속
         window.addEventListener('load', function() {
@@ -144,6 +129,8 @@
         
     </script>
     <script src="js/detail_api.js"></script>
+    <script src="/js/header_api.js"></script>
+    <script src="/js/nav_api.js"></script>
 </body>
 
 </html>

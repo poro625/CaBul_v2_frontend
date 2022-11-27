@@ -10,30 +10,9 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    <link rel="stylesheet" href="style/index.css">
     <title>홈화면</title>
 
-    <style>
-        *{
-            font-family: 'Jua', sans-serif;
-            font-family: 'Nanum Gothic Coding', monospace;
-        }
-        .FeedBoxCont {
-            width: 1400px;
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            margin: 0 0 0 100px;
-        }
-        
-        .FeedBox {
-            display: flex;
-            width: 300px;
-            height: 400px;
-            margin-top: 30px;
-
-        }
-
-    </style>
 </head>
 <body>
 
@@ -42,29 +21,20 @@
         <div data-include-path="nav.html"></div>
         <div>
             <div class="FeedBoxCont">
-                
+                <!-- 게시글 반복문 -->
             </div>
-            <!-- <div class="PageButton">
-
-            </div> -->
             <ul style="display:flex;list-style: none;"> 
-                <li style="margin:3px;"><a class="PagePrevButton" style="text-decoration:none; color: black;">&#10094; Prev</a></li>
+                <li style="margin:3px;"><a class="PagePrevButton" style="text-decoration:none; color: black;"></a></li>
                 <div class="PageNumberButton" style="display: flex; flex-direction: row;">
-                    <!-- <li style="margin:3px;"><a style="text-decoration:none; color: red;" href="?page=">1</a></li>
-                    <li style="margin:3px;"><a style="text-decoration:none; color: black;" href="?page=">2</a></li>
-                    <li style="margin:3px;"><a style="text-decoration:none; color: black;" href="?page=">2</a></li>
-                    <li style="margin:3px;"><a style="text-decoration:none; color: black;" href="?page=">2</a></li>
-                    <li style="margin:3px;"><a style="text-decoration:none; color: black;" href="?page=">2</a></li>
-                    <li style="margin:3px;"><a style="text-decoration:none; color: black;" href="?page=">2</a></li>
-                    <li style="margin:3px;"><a style="text-decoration:none; color: black;" href="?page=">2</a></li>
-                    <li style="margin:3px;"><a style="text-decoration:none; color: black;" href="?page=">2</a></li>
-                    <li style="margin:3px;"><a style="text-decoration:none; color: black;" href="?page=">2</a></li>
-                    <li style="margin:3px;"><a style="text-decoration:none; color: black;" href="?page=">2</a></li> -->
+                    <!-- 페이지네이션 반복문  -->
                 </div>
-                <li style="margin:3px;"><a class="PageNextButton" style="text-decoration:none; color: black;">&#10095; Next</a></li>
+                <li style="margin:3px;"><a class="PageNextButton" style="text-decoration:none; color: black;"></a></li>
             </ul>
+            
         </div>
+        
     </div>
+    <div data-include-path="/footer.html"></div>
     <script>
         // html 상속
         window.addEventListener('load', function() {
