@@ -68,6 +68,7 @@ async function handleCommentDelete(comment_id) {
             "Authorization":"Bearer " + localStorage.getItem("access")
         },
         method: 'DELETE',
+
     })
     if (response.status ==204){
         alert("리뷰가 삭제되었습니다!")
@@ -160,6 +161,8 @@ window.onload = async function getIndexDetail_API(){
         var feed_category = document.getElementsByClassName('FeedDetailFeedCategory')[0];
         var feed_created_at = document.getElementsByClassName('FeedDetailFeedCreated')[0];
         var feed_profile_image = document.getElementsByClassName('FeedDetailFeedProfileImage')[0];
+        var feed_update = document.getElementsByClassName('FeedDetailFeedupdate')[0];
+        feed_update.setAttribute("href",`${frontEndBaseUrl}/articles/update.html?id=${feed.pk}`)
 
         if(like_List.like.length == 0){
             // console.log("좋아요 한 유저가 없을때")
@@ -252,3 +255,23 @@ window.onload = async function getIndexDetail_API(){
         nav_category.innerHTML += `<div onclick="location.href='${frontEndBaseUrl}/articles/category.html?id=${category.category}'" class="category"><a style="color: #cacaca; text-decoration: none;">${category.category} <b style="font-weight: normal; color: #cacaca;">(${category.count})</b></a></div>`
     });
 }
+
+// 게시글 삭제
+async function deleteFeed() {
+
+    feed_id =location.search.replace("?id=","")
+    const response = await fetch(`${backEndBaseUrl}/articles/${feed_id}/`, {
+        headers: {
+        Authorization: "Bearer " + localStorage.getItem("access"),
+        },
+        method: "DELETE",
+    });
+
+    if (response.status == 204) {
+        alert("게시글삭제완료!")
+            window.location.replace(`${frontEndBaseUrl}/`); // 삭제가 되고나면 인덱스로 다시 이동하게함
+    } else {
+        alert(response.status);
+    }
+}
+
