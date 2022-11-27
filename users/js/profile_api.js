@@ -395,6 +395,8 @@ window.onload = async function getProfile_API(){
     var nav_follow = document.getElementsByClassName('NavUserInfoBoxFollow')[0];
     var nav_login = document.getElementsByClassName('NavUserInfoBoxLogin')[0];
     last_login_time = timeForToday(nav_user_info.last_login)
+    var nav_profile_image = document.getElementsByClassName('NavUserInfoBoxProfileImage')[0];
+    // var nav_profile_link = document.getElementsByClassName('NavUserInfoBoxProfileLink')[0];
 
     nav_nickname.innerText = `${nav_user_info.nickname}`
     nav_name.innerText = `${nav_user_info.name}`
@@ -402,6 +404,9 @@ window.onload = async function getProfile_API(){
     nav_email.innerText = `${nav_user_info.email}`
     nav_follow.innerText = `팔로잉 ${nav_user_info.follow_count} 명  |  팔로워 ${nav_user_info.followee_count} 명`
     nav_login.innerText = `현재 접속 시간 : ${last_login_time}`
+    // nav_profile_link.setAttribute("onclick", `${frontEndBaseUrl}/users/profile.html?id=${nav_user_info.id}`)
+    nav_profile_image.setAttribute("src", `${backEndBaseUrl}${nav_user_info.profile_image}`)
+    console.log(`${backEndBaseUrl}${nav_user_info.profile_image}`)
 
 
     // nav 하단 카테고리 부분
