@@ -2,7 +2,7 @@ const frontEndBaseUrl = "http://127.0.0.1:5500"
 const backEndBaseUrl = "http://127.0.0.1:8000"
 
 // 게시글 상세 조회
-async function getIndexFeedDetail(id){     
+async function getIndexFeedDetail(id){
     const response = await fetch(`${backEndBaseUrl}/articles/${id}/`,{
         headers: {
             'content-type': 'application/json',
@@ -12,7 +12,6 @@ async function getIndexFeedDetail(id){
     })
 
     response_json = await response.json()
-    console.log(response_json)
     return response_json
 }
 
@@ -35,7 +34,6 @@ async function handleComment(id){
         window.location.reload();
 }
 }
-
 //  댓글 수정
 async function handleCommentUpdate(comment_id) {
     const feed_id = location.search.replace("?id=", "")
@@ -54,7 +52,7 @@ async function handleCommentUpdate(comment_id) {
     })
     const response_json = await response.json()
     if (response.status ==200){
-        alert("리뷰가 수정되었습니다!")
+        alert(response_json["message"])
         window.location.replace(`${frontEndBaseUrl}/articles/detail.html?id=${feed_id}`);
     }
 }
@@ -69,13 +67,17 @@ async function handleCommentDelete(comment_id) {
             'content-type': 'application/json',
             "Authorization":"Bearer " + localStorage.getItem("access")
         },
-        method: 'DELETE',
+
     })
     if (response.status ==204){
-        alert("리뷰가 삭제되었습니다!")
+        alert("삭제되었습니다!")
         window.location.replace(`${frontEndBaseUrl}/articles/detail.html?id=${feed_id}`);
     }
 }
+
+
+
+
 
 function timeForToday(value) {
     const today = new Date();
@@ -99,6 +101,7 @@ function timeForToday(value) {
 
     return `${Math.floor(betweenTimeDay / 365)}년전`;
 }
+
 //좋아요 정보 가져오기
 async function getLike(){
     feed_id = location.search.replace("?id=","")
@@ -140,13 +143,11 @@ window.onload = async function getIndexDetail_API(){
         
         
     } else {
-        const feed_id = location.search.replace("?id=", "")
-        feed = await getIndexFeedDetail(feed_id)
-        console.log(feed)
+        const id = location.search.replace("?id=", "")
+        feed = await getIndexFeedDetail(id)
         comments = feed.comments
         created_at = timeForToday(feed.created_at)
         like_List = await getLike()
-        
 
         // var wrap = document.getElementsByClassName('FeedDetailBox')[0];
         var like_wrap = document.getElementsByClassName('like_box')[0];
@@ -160,53 +161,50 @@ window.onload = async function getIndexDetail_API(){
         var feed_created_at = document.getElementsByClassName('FeedDetailFeedCreated')[0];
         var feed_profile_image = document.getElementsByClassName('FeedDetailFeedProfileImage')[0];
 
+        if(like_List.like.length == 0){
+            // console.log("좋아요 한 유저가 없을때")
+            like_wrap.innerHTML +=`<button style="border: none; background: none; margin-top: 3px;"><img onclick="handleLike()" style="width: 20px; height: 20px; margin: 5px 10px 0 0;" src="../static/icon/heart.png" /></button>`
+            }
+            else{
+                // console.log("좋아요 한 유저가 있을때")
+                counts = 0
+            // 게시물 좋아요 유무를 체크하는 조건문 부분
+                like_List.like.forEach(liker => {
+    
+                    if(liker==User_payload.user_id){
+                    // console.log(`${liker}유저가 이 게시물을 좋아요 중입니다`)
+                    counts = +1
+                }
+                    else{
+                    // console.log(`${liker}유저가 이 게시물을 좋아요 중이 아닙니다`)
+                    }
+                })
+            // 체크한 부분을 토대로 출력해주는 부분
+                if(counts==1){
+                    // console.log(`${like_List.pk}번 게시물을 이 유저가 좋아요 중입니다`)
+                    like_wrap.innerHTML +=`<button style="border: none; background: none; margin-top: 3px;"><img onclick="handleLike()" style="width: 20px; height: 20px; margin: 5px 10px 0 0;" src="../static/icon/heart_bk.png" /></button>`
+                }
+                else{
+                    // console.log(`${like_List.pk}번 게시물을 이 유저가 좋아요 중이 아닙니다`)
+                    like_wrap.innerHTML +=`<button style="border: none; background: none; margin-top: 3px;"><img onclick="handleLike()" style="width: 20px; height: 20px; margin: 5px 10px 0 0;" src="../static/icon/heart.png" /></button>`
+                }
+            }
+            like_count.innerText = `좋아요${like_List.like_count}개`
 
         // wrap.innerHTML = ``
 
-        comments.forEach(cmt => {            
-
-        if(like_List.like.length == 0){
-        // console.log("좋아요 한 유저가 없을때")
-        like_wrap.innerHTML +=`<button style="border: none; background: none; margin-top: 3px;"><img onclick="handleLike()" style="width: 20px; height: 20px; margin: 5px 10px 0 0;" src="../static/icon/heart.png" /></button>`
-        }
-        else{
-            // console.log("좋아요 한 유저가 있을때")
-            counts = 0
-        // 게시물 좋아요 유무를 체크하는 조건문 부분
-            like_List.like.forEach(liker => {
-
-                if(liker==User_payload.user_id){
-                // console.log(`${liker}유저가 이 게시물을 좋아요 중입니다`)
-                counts = +1
-            }
-                else{
-                // console.log(`${liker}유저가 이 게시물을 좋아요 중이 아닙니다`)
-                }
-            })
-        // 체크한 부분을 토대로 출력해주는 부분
-            if(counts==1){
-                // console.log(`${like_List.pk}번 게시물을 이 유저가 좋아요 중입니다`)
-                like_wrap.innerHTML +=`<button style="border: none; background: none; margin-top: 3px;"><img onclick="handleLike()" style="width: 20px; height: 20px; margin: 5px 10px 0 0;" src="../static/icon/heart_bk.png" /></button>`
-            }
-            else{
-                // console.log(`${like_List.pk}번 게시물을 이 유저가 좋아요 중이 아닙니다`)
-                like_wrap.innerHTML +=`<button style="border: none; background: none; margin-top: 3px;"><img onclick="handleLike()" style="width: 20px; height: 20px; margin: 5px 10px 0 0;" src="../static/icon/heart.png" /></button>`
-            }
-        }
-        like_count.innerText = `좋아요${like_List.like_count}개`
-       
-
-        comments.forEach(cmt => {
-            comment_wrap.innerHTML += `<div style="display: flex; flex-direction: row; justify-content: space-between ;">
-                                        <div style="display: flex; flex-direction: row;">
-                                            <div style="margin-left: 5px; font-weight: bold;">${cmt.user}</div>
-                                            <div style="margin-left: 5px;">${cmt.comment}</div>
-                                        </div>
-                                        <!-- 댓글 수정, 삭제 부분 -->                                        
-                                            <input type="submit" value='수정' onclick="handleCommentUpdate(${cmt.id})" style="background-color: transparent; border: none; margin-right: 10px; color: red;">
-                                            <input type="submit" value='X' onclick="handleCommentDelete(${cmt.id})" style="background-color: transparent; border: none; margin-right: 10px; color: red;">                                        
-                                    </div>`            
-        });
+       // wrap.innerHTML = ``
+       comments.forEach(cmt => {            
+        comment_wrap.innerHTML += `<div style="display: flex; flex-direction: row; justify-content: space-between ;">
+                                    <div style="display: flex; flex-direction: row;">
+                                        <div style="margin-left: 5px; font-weight: bold;">${cmt.user}</div>
+                                        <div style="margin-left: 5px;">${cmt.comment}</div>
+                                    </div>
+                                    <!-- 댓글 수정, 삭제 부분 -->                                        
+                                        <input type="submit" value='수정' onclick="handleCommentUpdate(${cmt.id})" style="background-color: transparent; border: none; margin-right: 10px; color: red;">
+                                        <input type="submit" value='X' onclick="handleCommentDelete(${cmt.id})" style="background-color: transparent; border: none; margin-right: 10px; color: red;">                                        
+                                </div>`            
+    });
 
         feed_nickname.innerText = `${feed.user}`
         feed_transfer_image.innerHTML = `<img style="cursor: pointer; width: 1000px; min-width: 1000px; height: 600px; min-height: 600px; object-fit: contain; background-color: black;" src="${backEndBaseUrl}${feed.transfer_image}">`
