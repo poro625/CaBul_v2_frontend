@@ -88,7 +88,7 @@ window.onload = async function getIndex_API(){
     // 좌측 메뉴바 API 연결
     nav_user_info = await getNavUserInfo(User_payload.user_id)
     nav_user_info = nav_user_info.users
-    console.log(nav_user_info)
+    // console.log(nav_user_info)
     nav_category_box = await getNavCategoryBox()
 
     // 현재 접속한 페이지 번호 확인
@@ -150,14 +150,14 @@ window.onload = async function getIndex_API(){
     // 팔로우 버튼 기능 API
     me = await getUser()
     me = me.users
-    console.log(me)
+    // console.log(me)
 
 
     // 게시글 반복 부분
     var wrap = document.getElementsByClassName('FeedBoxCont')[0];
 
     feed_list.results.forEach(feed => {
-        console.log(feed)
+        // console.log(feed)
         // console.log(`
         //     pk : ${feed.pk}
         //     user : ${feed.user}
@@ -179,8 +179,8 @@ window.onload = async function getIndex_API(){
         }
         else {
         me.follow.forEach(fme => {
-            console.log(`fme : ${fme}`)
-            console.log(`feed : ${feed.user_id}`)
+            // console.log(`fme : ${fme}`)
+            // console.log(`feed : ${feed.user_id}`)
             if ( feed.user_id == me.id ) {
                 follow_check =+ 2
             }
