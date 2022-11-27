@@ -122,11 +122,17 @@ window.onload = async function getFollow_API(){
     } else {
         follow_list = await getUserFollow()
         me = await getUser()
+
+        // 좌측 메뉴바 API 연결
         nav_user_info = await getNavUserInfo(User_payload.user_id)
         nav_user_info = nav_user_info.users
+        // console.log(nav_user_info)
+        nav_category_box = await getNavCategoryBox()
 
         
         var wrap = document.getElementsByClassName('follow_box')[0];
+        // nav 부분
+        // nav 상단 유저 박스 부분
         var nav_nickname = document.getElementsByClassName('NavUserInfoBoxNickname')[0];
         var nav_name = document.getElementsByClassName('NavUserInfoBoxName')[0];
         var nav_name2 = document.getElementsByName('NavUserInfoBoxName2')[0];
@@ -134,6 +140,9 @@ window.onload = async function getFollow_API(){
         var nav_follow = document.getElementsByClassName('NavUserInfoBoxFollow')[0];
         var nav_login = document.getElementsByClassName('NavUserInfoBoxLogin')[0];
         last_login_time = timeForToday(nav_user_info.last_login)
+        var nav_profile_image = document.getElementsByClassName('NavUserInfoBoxProfileImage')[0];
+        // var nav_profile_link = document.getElementsByClassName('NavUserInfoBoxProfileLink')[0];
+        var nav_feed_count = document.getElementsByClassName('NavUserInfoBoxFeedCount')[0];
 
         nav_nickname.innerText = `${nav_user_info.nickname}`
         nav_name.innerText = `${nav_user_info.name}`
@@ -141,6 +150,18 @@ window.onload = async function getFollow_API(){
         nav_email.innerText = `${nav_user_info.email}`
         nav_follow.innerText = `팔로잉 ${nav_user_info.follow_count} 명  |  팔로워 ${nav_user_info.followee_count} 명`
         nav_login.innerText = `현재 접속 시간 : ${last_login_time}`
+        // nav_profile_link.setAttribute("onclick", `${frontEndBaseUrl}/users/profile.html?id=${nav_user_info.id}`)
+        nav_profile_image.setAttribute("src", `${backEndBaseUrl}${nav_user_info.profile_image}`)
+        nav_feed_count.innerText = `작성한 글 : ${nav_user_info.feed_set_count} 개`
+        
+        // nav 하단 카테고리 부분
+        var nav_category = document.getElementsByClassName('NavCategory')[0];
+        
+
+        nav_category_box.forEach(category => {
+            nav_category.innerHTML += `<div onclick="location.href='${frontEndBaseUrl}/articles/category.html?id=${category.category}'" class="category"><a style="color: #cacaca; text-decoration: none;">${category.category} <b style="font-weight: normal; color: #cacaca;">(${category.count})</b></a></div>`
+        });
+
 
         follow_list.forEach(follow => {  
             counts = 0
