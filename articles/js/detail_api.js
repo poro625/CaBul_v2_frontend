@@ -95,6 +95,7 @@ window.onload = async function getIndexDetail_API(){
         var feed_content = document.getElementsByClassName('FeedDetailFeedContent')[0];
         var feed_category = document.getElementsByClassName('FeedDetailFeedCategory')[0];
         var feed_created_at = document.getElementsByClassName('FeedDetailFeedCreated')[0];
+        var feed_profile_image = document.getElementsByClassName('FeedDetailFeedProfileImage')[0];
 
         // wrap.innerHTML = ``
 
@@ -117,6 +118,7 @@ window.onload = async function getIndexDetail_API(){
         feed_content.innerText = `${feed.content}`
         feed_category.innerText = `${feed.category}`
         feed_created_at.innerText = `${created_at}`
+        feed_profile_image.setAttribute("src", `${backEndBaseUrl}/${feed.profile_image}` )
     }
 
     // 좌측 메뉴바 API 연결
@@ -146,7 +148,7 @@ window.onload = async function getIndexDetail_API(){
     // nav_profile_link.setAttribute("onclick", `${frontEndBaseUrl}/users/profile.html?id=${nav_user_info.id}`)
     nav_profile_image.setAttribute("src", `${backEndBaseUrl}${nav_user_info.profile_image}`)
     console.log(`${backEndBaseUrl}${nav_user_info.profile_image}`)
-    
+
     // nav 하단 카테고리 부분
     var nav_category = document.getElementsByClassName('NavCategory')[0];
     

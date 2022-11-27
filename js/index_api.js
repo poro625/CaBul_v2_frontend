@@ -157,7 +157,7 @@ window.onload = async function getIndex_API(){
     var wrap = document.getElementsByClassName('FeedBoxCont')[0];
 
     feed_list.results.forEach(feed => {
-        // console.log(feed)
+        console.log(feed)
         // console.log(`
         //     pk : ${feed.pk}
         //     user : ${feed.user}
@@ -195,7 +195,7 @@ window.onload = async function getIndex_API(){
             wrap.innerHTML += `<div class="FeedBox" style="background-color: #fafafa; border: solid 1px #aaaaaa; box-shadow: 1px 1px 1px 1px #aaaaaa;">
             <div style="width: 300px; min-width: 300px; height: 400px; min-height: 400px;">
                 <div style="display: flex; flex-direction: row; justify-content: space-between; height: 40px;"><div style="display: flex; flex-direction: row;">
-                    <img src="/static/img/default.png" alt="" style="width: 20px; height: 20px; border-radius: 10px; margin: 10px 5px 0 5px;">
+                    <img src="${backEndBaseUrl}/${feed.profile_image}" alt="" style="width: 20px; height: 20px; border-radius: 10px; margin: 10px 5px 0 5px;">
                     <div onclick="location.href='${frontEndBaseUrl}/users/profile.html?id=${feed.user_id}'" style="font-weight: bold; margin-top: 7px ;">
                     ${feed.user}
                 </div>
@@ -244,7 +244,7 @@ window.onload = async function getIndex_API(){
             wrap.innerHTML += `<div class="FeedBox" style="background-color: #fafafa; border: solid 1px #aaaaaa; box-shadow: 1px 1px 1px 1px #aaaaaa;">
             <div style="width: 300px; min-width: 300px; height: 400px; min-height: 400px;">
                 <div style="display: flex; flex-direction: row; justify-content: space-between; height: 40px;"><div style="display: flex; flex-direction: row;">
-                    <img src="/static/img/default.png" alt="" style="width: 20px; height: 20px; border-radius: 10px; margin: 10px 5px 0 5px;">
+                    <img src="${backEndBaseUrl}/${feed.profile_image}" alt="" style="width: 20px; height: 20px; border-radius: 10px; margin: 10px 5px 0 5px;">
                     <div onclick="location.href='${frontEndBaseUrl}/users/profile.html?id=${feed.user_id}'" style="font-weight: bold; margin-top: 7px ;">
                     ${feed.user}
                 </div>
@@ -293,7 +293,7 @@ window.onload = async function getIndex_API(){
             wrap.innerHTML += `<div class="FeedBox" style="background-color: #fafafa; border: solid 1px #aaaaaa; box-shadow: 1px 1px 1px 1px #aaaaaa;">
             <div style="width: 300px; min-width: 300px; height: 400px; min-height: 400px;">
                 <div style="display: flex; flex-direction: row; justify-content: space-between; height: 40px;"><div style="display: flex; flex-direction: row;">
-                    <img src="/static/img/default.png" alt="" style="width: 20px; height: 20px; border-radius: 10px; margin: 10px 5px 0 5px;">
+                    <img src="${backEndBaseUrl}/${feed.profile_image}" alt="" style="width: 20px; height: 20px; border-radius: 10px; margin: 10px 5px 0 5px;">
                     <div onclick="location.href='${frontEndBaseUrl}/users/profile.html?id=${feed.user_id}'" style="font-weight: bold; margin-top: 7px ;">
                     ${feed.user}
                 </div>
