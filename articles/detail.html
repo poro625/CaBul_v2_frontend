@@ -8,7 +8,22 @@
 
     <title>상세 페이지</title>
 
+    <style>
+        .FeedBoxCont {
+            width: 1400px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            margin: 0 0 0 100px;
+        }
 
+        .FeedBox {
+            display: flex;
+            width: 300px;
+            height: 400px;
+            margin-top: 30px;
+
+        }
+    </style>
 
 </head>
 
@@ -27,12 +42,14 @@
                             <!-- <a href= "" style="border: solid 1px #aaaaaa; border-radius: 4px; height: 25px; margin: 5px 0 0 10px; padding-left: 5px; padding-right: 5px; font-size: 11pt; text-decoration: none; color: #aaaaaa;; background-color: #fafafa;">팔로우</a> -->
                         </div>
                         <div class="dropdown">
-                            <button type="button" data-bs-toggle="dropdown" aria-expanded="false" style="border: none; background-color: #fafafa;">
-                                <div style="font-weight: bold; margin: 3px 10px 0 0;">...</div>
-                            </button>
+                            <!-- <button type="button" data-bs-toggle="dropdown" aria-expanded="false" style="border: none; background-color: #fafafa;"> -->
+                                <!-- <div style="font-weight: bold; margin: 3px 10px 0 0;">...</div>
+                            </button> -->
+                            <a style="text-decoration: none; color: red; margin-left: 30px;" type="submit"  onclick="deleteFeed()" href="">삭제</a>
+                            <a style="text-decoration: none; color: black; margin-left: 30px;"type="submit" href="/articles/update.html">수정</a>
                             <ul class="dropdown-menu" style="background-color: #fafafa; border: solid 1px #aaaaaa; box-shadow: 1px 1px 1px 1px #aaaaaa;">
-                                <!-- <li><a style="text-decoration: none; color: black; margin-left: 30px;" href="{% url 'contents:post_update' feeds.id %}">수정</a></li>
-                                <li><a style="text-decoration: none; color: red; margin-left: 30px;" href="{% url 'contents:post_delete' feeds.id %}">삭제</a></li> -->
+                                <!-- <li><a style="text-decoration: none; color: black; margin-left: 30px;" href="" onclick="feedUpload()">수정</a></li>
+                                <li><a style="text-decoration: none; color: red; margin-left: 30px;" href="" onclick="deleteFeed(feed.pk)">삭제</a></li> -->
                             </ul>
                         </div>
                     </div>
@@ -104,10 +121,10 @@
                     </div>
                 </div>
             </div>
-            
         </div>
-    </div>
-    <div data-include-path="/footer.html"></div>
+
+
+
     <script>
         // html 상속
         window.addEventListener('load', function() {
@@ -128,9 +145,9 @@
         });
         
     </script>
+    <script src="js/update_api.js"></script>
+    <!-- <script src="js/detail.js"></script> -->
     <script src="js/detail_api.js"></script>
-    <script src="/js/header_api.js"></script>
-    <script src="/js/nav_api.js"></script>
 </body>
 
 </html>

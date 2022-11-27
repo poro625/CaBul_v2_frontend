@@ -75,6 +75,27 @@ function timeForToday(value) {
     return `${Math.floor(betweenTimeDay / 365)}년전`;
 }
 
+
+async function deleteFeed() {
+
+    feed_id =location.search.replace("?id=","")
+    const response = await fetch(`${backEndBaseUrl}/articles/${feed_id}/`, {
+        headers: {
+        Authorization: "Bearer " + localStorage.getItem("access"),
+        },
+        method: "DELETE",
+    });
+    const response_json = await response.json()
+    if (response.status == 204) {
+        alert(response_json["message"])
+        window.location.replace(`${frontEndBaseUrl}/`); // 삭제가 되고나면 인덱스로 다시 이동하게함
+    } else {
+        alert(response.status);
+    }
+}
+
+
+
 window.onload = async function getIndexDetail_API(){
     let User_payload = JSON.parse(localStorage.getItem('payload'))
     if (User_payload === undefined ||  User_payload === null){
