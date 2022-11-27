@@ -2,7 +2,7 @@ const frontEndBaseUrl = "http://127.0.0.1:5500"
 const backEndBaseUrl = "http://127.0.0.1:8000"
 
 // 게시글 상세 조회
-async function getIndexFeedDetail(id){
+async function getIndexFeedDetail(id){     
     const response = await fetch(`${backEndBaseUrl}/articles/${id}/`,{
         headers: {
             'content-type': 'application/json',
@@ -35,8 +35,33 @@ async function handleComment(id){
 }
 }
 
+//  댓글 수정
+async function handleCommentUpdate(comment_id) {
+    const feed_id = location.search.replace("?id=", "")
+    const update_comment = document.getElementById("comment").value
+    
+    console.log(feed_id)
+    const response = await fetch(`${backEndBaseUrl}/articles/${feed_id}/comment/${comment_id}/`, {
+        headers: {
+            'content-type': 'application/json',
+            "Authorization":"Bearer " + localStorage.getItem("access")
+        },
+        method: 'PUT',
+        body: JSON.stringify({
+            "comment": update_comment,
+        })
+    })
+    const response_json = await response.json()
+    if (response.status ==200){
+        alert("리뷰가 수정되었습니다!")
+        window.location.replace(`${frontEndBaseUrl}/articles/detail.html?id=${feed_id}`);
+    }
+}
+
+
 // 댓글 삭제
-async function handleCommentDelete(comment_id, feed_id) {
+async function handleCommentDelete(comment_id) {
+    const feed_id = location.search.replace("?id=", "")
 
     const response = await fetch(`${backEndBaseUrl}/articles/${feed_id}/comment/${comment_id}/`, {
         headers: {
@@ -50,7 +75,6 @@ async function handleCommentDelete(comment_id, feed_id) {
         window.location.replace(`${frontEndBaseUrl}/articles/detail.html?id=${feed_id}`);
     }
 }
-
 
 function timeForToday(value) {
     const today = new Date();
@@ -86,6 +110,7 @@ window.onload = async function getIndexDetail_API(){
         feed = await getIndexFeedDetail(id)
         comments = feed.comments
         created_at = timeForToday(feed.created_at)
+        console.log(feed)
 
         // var wrap = document.getElementsByClassName('FeedDetailBox')[0];
         var comment_wrap = document.getElementsByClassName('CommentDetailList')[0];
@@ -97,18 +122,16 @@ window.onload = async function getIndexDetail_API(){
         var feed_created_at = document.getElementsByClassName('FeedDetailFeedCreated')[0];
 
         // wrap.innerHTML = ``
-
-        comments.forEach(cmt => {
+        comments.forEach(cmt => {            
             comment_wrap.innerHTML += `<div style="display: flex; flex-direction: row; justify-content: space-between ;">
                                         <div style="display: flex; flex-direction: row;">
                                             <div style="margin-left: 5px; font-weight: bold;">${cmt.user}</div>
                                             <div style="margin-left: 5px;">${cmt.comment}</div>
                                         </div>
-                                        <!-- 댓글 삭제 부분 -->
-                                        <form>
-                                            <input type="submit" value='X' onclick="handleCommentDelete(${cmt.id}, ${feed.id})" style="background-color: transparent; border: none; margin-right: 10px; color: red;">
-                                        </form>
-                                    </div>`
+                                        <!-- 댓글 수정, 삭제 부분 -->                                        
+                                            <input type="submit" value='수정' onclick="handleCommentUpdate(${cmt.id})" style="background-color: transparent; border: none; margin-right: 10px; color: red;">
+                                            <input type="submit" value='X' onclick="handleCommentDelete(${cmt.id})" style="background-color: transparent; border: none; margin-right: 10px; color: red;">                                        
+                                    </div>`            
         });
 
         feed_nickname.innerText = `${feed.user}`
