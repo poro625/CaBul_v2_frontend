@@ -71,7 +71,7 @@ async function handleCommentDelete(comment_id) {
 
     })
     if (response.status ==204){
-        alert("삭제되었습니다!")
+        alert("리뷰가 삭제되었습니다!")
         window.location.replace(`${frontEndBaseUrl}/articles/detail.html?id=${feed_id}`);
     }
 }
