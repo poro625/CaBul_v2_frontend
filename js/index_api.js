@@ -82,21 +82,6 @@ async function getUser(){
 }
 
 
-//좋아요 정보 가져오기
-async function getLike(feed_id){
-    const response = await fetch(`${backEndBaseUrl}/articles/${feed_id}/`, {
-        headers: {
-            'content-type': 'application/json',
-            "Authorization":"Bearer " + localStorage.getItem("access")
-        },
-        method: 'GET',
-    })
-
-    const response_json = await response.json()
-    return response_json
-}
-
-
 // 좋아요 버튼
 async function handleLike(feed_id){
     console.log("좋아요했습니다")
@@ -183,16 +168,6 @@ window.onload = async function getIndex_API(){
     me = await getUser()
     me = me.users
     // console.log(me)
-
-    
-
-
-
-    
-        
-
-
-
 
 
 
