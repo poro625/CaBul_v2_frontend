@@ -68,6 +68,7 @@ async function handleCommentDelete(comment_id) {
             "Authorization":"Bearer " + localStorage.getItem("access")
         },
         method: 'DELETE',
+
     })
     if (response.status ==204){
         alert("리뷰가 삭제되었습니다!")
@@ -252,3 +253,21 @@ window.onload = async function getIndexDetail_API(){
         nav_category.innerHTML += `<div onclick="location.href='${frontEndBaseUrl}/articles/category.html?id=${category.category}'" class="category"><a style="color: #cacaca; text-decoration: none;">${category.category} <b style="font-weight: normal; color: #cacaca;">(${category.count})</b></a></div>`
     });
 }
+async function deleteFeed() {
+
+    feed_id =location.search.replace("?id=","")
+    const response = await fetch(`${backEndBaseUrl}/articles/${feed_id}/`, {
+        headers: {
+        Authorization: "Bearer " + localStorage.getItem("access"),
+        },
+        method: "DELETE",
+    });
+    const response_json = await response.json()
+    if (response.status == 204) {
+        alert(response_json["message"])
+        window.location.replace(`${frontEndBaseUrl}/`); // 삭제가 되고나면 인덱스로 다시 이동하게함
+    } else {
+        alert(response.status);
+    }
+}
+
