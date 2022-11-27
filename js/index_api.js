@@ -88,7 +88,7 @@ window.onload = async function getIndex_API(){
     // 좌측 메뉴바 API 연결
     nav_user_info = await getNavUserInfo(User_payload.user_id)
     nav_user_info = nav_user_info.users
-    // console.log(nav_user_info)
+    console.log(nav_user_info)
     nav_category_box = await getNavCategoryBox()
 
     // 현재 접속한 페이지 번호 확인
@@ -157,7 +157,7 @@ window.onload = async function getIndex_API(){
     var wrap = document.getElementsByClassName('FeedBoxCont')[0];
 
     feed_list.results.forEach(feed => {
-        // console.log(feed)
+        console.log(feed)
         // console.log(`
         //     pk : ${feed.pk}
         //     user : ${feed.user}
@@ -195,7 +195,7 @@ window.onload = async function getIndex_API(){
             wrap.innerHTML += `<div class="FeedBox" style="background-color: #fafafa; border: solid 1px #aaaaaa; box-shadow: 1px 1px 1px 1px #aaaaaa;">
             <div style="width: 300px; min-width: 300px; height: 400px; min-height: 400px;">
                 <div style="display: flex; flex-direction: row; justify-content: space-between; height: 40px;"><div style="display: flex; flex-direction: row;">
-                    <img src="/static/img/default.png" alt="" style="width: 20px; height: 20px; border-radius: 10px; margin: 10px 5px 0 5px;">
+                    <img src="${backEndBaseUrl}/${feed.profile_image}" alt="" style="width: 20px; height: 20px; border-radius: 10px; margin: 10px 5px 0 5px;">
                     <div onclick="location.href='${frontEndBaseUrl}/users/profile.html?id=${feed.user_id}'" style="font-weight: bold; margin-top: 7px ;">
                     ${feed.user}
                 </div>
@@ -244,7 +244,7 @@ window.onload = async function getIndex_API(){
             wrap.innerHTML += `<div class="FeedBox" style="background-color: #fafafa; border: solid 1px #aaaaaa; box-shadow: 1px 1px 1px 1px #aaaaaa;">
             <div style="width: 300px; min-width: 300px; height: 400px; min-height: 400px;">
                 <div style="display: flex; flex-direction: row; justify-content: space-between; height: 40px;"><div style="display: flex; flex-direction: row;">
-                    <img src="/static/img/default.png" alt="" style="width: 20px; height: 20px; border-radius: 10px; margin: 10px 5px 0 5px;">
+                    <img src="${backEndBaseUrl}/${feed.profile_image}" alt="" style="width: 20px; height: 20px; border-radius: 10px; margin: 10px 5px 0 5px;">
                     <div onclick="location.href='${frontEndBaseUrl}/users/profile.html?id=${feed.user_id}'" style="font-weight: bold; margin-top: 7px ;">
                     ${feed.user}
                 </div>
@@ -293,7 +293,7 @@ window.onload = async function getIndex_API(){
             wrap.innerHTML += `<div class="FeedBox" style="background-color: #fafafa; border: solid 1px #aaaaaa; box-shadow: 1px 1px 1px 1px #aaaaaa;">
             <div style="width: 300px; min-width: 300px; height: 400px; min-height: 400px;">
                 <div style="display: flex; flex-direction: row; justify-content: space-between; height: 40px;"><div style="display: flex; flex-direction: row;">
-                    <img src="/static/img/default.png" alt="" style="width: 20px; height: 20px; border-radius: 10px; margin: 10px 5px 0 5px;">
+                    <img src="${backEndBaseUrl}/${feed.profile_image}" alt="" style="width: 20px; height: 20px; border-radius: 10px; margin: 10px 5px 0 5px;">
                     <div onclick="location.href='${frontEndBaseUrl}/users/profile.html?id=${feed.user_id}'" style="font-weight: bold; margin-top: 7px ;">
                     ${feed.user}
                 </div>
@@ -352,6 +352,8 @@ window.onload = async function getIndex_API(){
     var nav_follow = document.getElementsByClassName('NavUserInfoBoxFollow')[0];
     var nav_login = document.getElementsByClassName('NavUserInfoBoxLogin')[0];
     last_login_time = timeForToday(nav_user_info.last_login)
+    var nav_profile_image = document.getElementsByClassName('NavUserInfoBoxProfileImage')[0];
+    var nav_feed_count = document.getElementsByClassName('NavUserInfoBoxFeedCount')[0];
     // var nav_profile_link = document.getElementsByClassName('NavUserInfoBoxProfileLink')[0];
 
     nav_nickname.innerText = `${nav_user_info.nickname}`
@@ -361,7 +363,9 @@ window.onload = async function getIndex_API(){
     nav_follow.innerText = `팔로잉 ${nav_user_info.follow_count} 명  |  팔로워 ${nav_user_info.followee_count} 명`
     nav_login.innerText = `현재 접속 시간 : ${last_login_time}`
     // nav_profile_link.setAttribute("onclick", `${frontEndBaseUrl}/users/profile.html?id=${nav_user_info.id}`)
-
+    nav_profile_image.setAttribute("src", `${backEndBaseUrl}${nav_user_info.profile_image}`)
+    nav_feed_count.innerText = `작성한 글 : ${nav_user_info.feed_set_count} 개`
+    
     // nav 하단 카테고리 부분
     var nav_category = document.getElementsByClassName('NavCategory')[0];
     
